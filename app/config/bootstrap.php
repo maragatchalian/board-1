@@ -12,7 +12,7 @@ require_once HELPERS_DIR.'html_helper.php';
 require_once VENDOR_DIR. 'SimpleDBI/SimpleDBI.php';
 
 // config
-require_once CONFIG_DIR.'log.php';
+require_once CONFIG_DIR. 'log.php';
 require_once CONFIG_DIR. 'router.php';
 require_once CONFIG_DIR. 'database.php';
 
