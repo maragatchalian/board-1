@@ -3,10 +3,11 @@
 <?php foreach ($comments as $k => $v): ?>
     <div class="comment">
         <div class="meta">
-            <?php eh($k + 1) ?>:<?php eh($v->username) ?> <?php eh($v->created) ?>
+            <h4><?php eh($k + 1) ?>: <?php eh($v->username) ?></h4> <?php eh($v->created) ?>
         </div>
-        <div><?php eh($v->body) ?></div>
+        <div><?php echo readable_text($v->body) ?></div>
     </div>
+    <br />
 <?php endforeach ?>
 
 <hr>
