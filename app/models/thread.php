@@ -1,13 +1,49 @@
 <?php 
     class Thread extends AppModel
     {
+        public $validation = array(
+            'title' => array(
+                'length' => array(
+                    'validate_between', 1, 30),
+                ),
+            );
+
+        public function create(Comment $comment)
+        {
+            $this->validate();
+            $comment->validate();
+
+            if ($this->hasError() || $comment->hasError()) {
+                throw new ValidationException('Invalid thread or comment');
+            }
+
+            $db = DB::conn();
+            $db->begin();
+
+            $date_created = date("Y-m-d H:i:s");
+
+            $params = array(
+            'title' => $this->title,
+            'created'=> $date_created
+            );
+
+            $db->insert('thread', $params);
+
+            $this->id = $db->lastInsertId();
+                //returns the latest inserted id
+
+            $this->write($comment);
+                //write first comment at the same time
+            $db->commit();
+        }
+
         public static function getAll()
         {
             $threads = array();
             $db = DB::conn();
             $rows = $db->rows('SELECT * FROM thread');
 
-            foreach($rows as $row){
+            foreach($rows as $row) {
                 $threads[] = new Thread($row);
             }
 
@@ -19,7 +55,7 @@
             $db = DB::conn();
             $row = $db->row('SELECT * FROM thread WHERE id = ?', array($id));
 
-            if (!$row){
+            if (!$row) {
                 throw new RecordNotFoundException('no record found');
             }
 
@@ -33,7 +69,7 @@
 
             $rows = $db->rows('SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC', array($this->id));
 
-            foreach ($rows as $row){
+            foreach ($rows as $row) {
                 $comments[] = new Comment($row);
             }
 
@@ -42,7 +78,7 @@
 
         public function write(Comment $comment)
         {
-            if(!$comment->validate()){
+            if(!$comment->validate()) {
                 throw new ValidationException('invalid comment');
             }
 

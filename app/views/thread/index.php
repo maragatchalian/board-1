@@ -4,3 +4,4 @@
         <li><a href="<?php eh(url('thread/view', array('thread_id' => $v->id))) ?>"><?php eh($v->title) ?></a></li>
     <?php endforeach ?>
 </ul>
+<a class="btn btn-large btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
