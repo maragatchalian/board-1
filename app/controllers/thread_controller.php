@@ -1,7 +1,6 @@
 <?php 
     class ThreadController extends AppController
     {
-
         public function create()
         {
             $thread = new Thread;
