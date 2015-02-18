@@ -25,7 +25,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="<?php eh(url(' thread/index')) ?>">DietCake Board</a>
+          <a class="brand" href="<?php eh(url('thread/index')) ?>">DietCake Board</a>
         </div>
       </div>
     </div>
