@@ -12,6 +12,13 @@
         </div>
         <?php endif //Username Validation ?>
 
+        <?php if (!empty($user->validation_errors['username']['existing_username'])): ?>            
+        
+        <div>
+            <em>Your already have an account. Please Log in.</em>              
+        </div>
+        <?php endif //Check if Username exist ?>
+
         <?php if (!empty($user->validation_errors['first_name']['length'])): ?>            
         
         <div><em>Your First Name</em> must be between                
@@ -51,6 +58,13 @@
             <?php eh($user->validation['confirm_password']['length'][2]) ?> characters in length.
         </div>
         <?php endif //Confirm Password Validation ?>
+        
+        <?php if (!empty($user->validation_errors['confirm_password']['is_matched'])): ?>            
+        <div>
+            <em>Your Password</em> must be equal to your 
+            <em>Current Password</em>                
+        </div>
+        <?php endif //Check if Password and Confirm Password match ?>
 
     </div>
 <?php endif ?>
@@ -93,6 +107,14 @@
 
     <div class="span12">
         <button class="btn btn-info btn-large" type="submit">Register me</button>
+        
+        <br />
+        <br />
+
+        <a href="<?php eh(url('user/login')) ?>">Already have an account? Log in here</a>
     </div>
+    
+    
+   
     
 </form>

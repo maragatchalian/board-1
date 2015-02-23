@@ -12,3 +12,15 @@ function readable_text($s)
     $s = nl2br($s);
     return $s;                    
 } //Returns line breaks
+
+function redirect($url)
+{
+    header("Location: " . $url);
+    exit();
+}
+
+function checkSession(){
+    if(!isset($_SESSION['user_id'])) {
+        redirect(url('user/login'));
+    }
+}

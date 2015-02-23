@@ -39,6 +39,22 @@
     </div>
 
     <div class="container">
+      
+      <?php if (isset($_SESSION['user_id'])):?>
+        <nav class="navbar">
+          <div class="container-fluid">
+            <ul class="nav navbar-nav">
+              <li><a href="<?php eh(url('user/home')) ?>">Home</a></li>
+              <li><a href="<?php eh(url('thread/index')) ?>">All Threads</a></li>
+              <li><a href="<?php eh(url('thread/create')) ?>">Create New Thread</a></li>
+            </ul>
+            
+            <ul class="nav navbar-nav pull-right">
+              <li><a href="<?php eh(url('user/logout')) ?>">Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      <?php endif ?>
 
       <?php echo $_content_ ?>
 
