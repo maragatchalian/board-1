@@ -45,7 +45,7 @@
                 $db->commit();
             }catch (Exception $e) {
                 $db->rollback();
-                throw $e;
+
             }
         }
 
@@ -56,7 +56,7 @@
             $rows = $db->rows('SELECT * FROM thread');
 
             foreach($rows as $row) {
-                $threads[] = new Thread($row);
+                $threads[] = new self($row);
             }
 
             return $threads;
