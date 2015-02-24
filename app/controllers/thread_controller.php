@@ -1,12 +1,12 @@
 <?php 
     class ThreadController extends AppController
     {
+        const ITEMS_PER_PAGE = 5;
+        
         public function create()
         {
-            checkSession();
-
-            $thread = new Thread;
-            $comment = new Comment;
+            $thread = new Thread();
+            $comment = new Comment();
             $page = Param::get('page_next', 'create');
 
             switch ($page) {
@@ -34,8 +34,6 @@
 
         public function index()
         {
-            checkSession();
-
             $threads = Thread::getAll();
            
             $this->set(get_defined_vars()); 
@@ -43,8 +41,6 @@
 
         public function view()
         {
-            checkSession();
-
             $thread = Thread::get(Param::get('thread_id'));
             $comments = $thread->getComments();
 
@@ -53,8 +49,6 @@
 
         public function write()
         {
-            checkSession();
-            
             $thread = Thread::get(Param::get('thread_id'));
             $comment = new Comment;
             $page = Param::get('page_next', 'write');

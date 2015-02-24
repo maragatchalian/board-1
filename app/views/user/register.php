@@ -2,6 +2,7 @@
 
 <?php if ($user->hasError()): ?>
     <div class="alert alert-block">
+       <?php print_r($user->validation_errors);  ?> 
         <h4 class="alert-heading">Validation error!</h4>
         
         <?php if (!empty($user->validation_errors['username']['length'])): ?>            
@@ -12,7 +13,7 @@
         </div>
         <?php endif //Username Validation ?>
 
-        <?php if (!empty($user->validation_errors['username']['existing_username'])): ?>            
+        <?php if (!empty($user->validation_errors['username']['exist'])): ?>            
         
         <div>
             <em>Your already have an account. Please Log in.</em>              
@@ -59,7 +60,7 @@
         </div>
         <?php endif //Confirm Password Validation ?>
         
-        <?php if (!empty($user->validation_errors['confirm_password']['is_matched'])): ?>            
+        <?php if (!empty($user->validation_errors['confirm_password']['match'])): ?>            
         <div>
             <em>Your Password</em> must be equal to your 
             <em>Current Password</em>                

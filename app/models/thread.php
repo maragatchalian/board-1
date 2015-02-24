@@ -7,7 +7,6 @@
         //Maximum Length
         const MAX_TITLE_LENGTH = 30;
 
-
         public $validation = array(
             'title' => array(
                 'length' => array(
@@ -25,8 +24,7 @@
             }
 
             $db = DB::conn();
-            $db->begin();
-
+            
             $date_created = date("Y-m-d H:i:s");
 
             $params = array(
@@ -34,14 +32,21 @@
             'created'=> $date_created
             );
 
-            $db->insert('thread', $params);
+            try {
+                $db->begin();
+                $db->insert('thread', $params);
 
-            $this->id = $db->lastInsertId();
+                 $this->id = $db->lastInsertId();
                 //returns the latest inserted id
 
-            $this->write($comment);
+                $this->write($comment);
                 //write first comment at the same time
-            $db->commit();
+            
+                $db->commit();
+            }catch (Exception $e) {
+                $db->rollback();
+                throw $e;
+            }
         }
 
         public static function getAll()

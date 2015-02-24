@@ -4,7 +4,7 @@
     <div class="alert alert-block">
         <h4 class="alert-heading">Validation error!</h4>
         
-        <?php if (!empty($user->validation_errors['password']['is_correct'])): ?>            
+        <?php if (!empty($user->validation_errors['password']['correct'])): ?>            
         
         <div>
             <em>Invalid Username or Password</em>                

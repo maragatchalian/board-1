@@ -71,7 +71,7 @@ class UserController extends AppController
 
     public function home()
     {
-        checkSession();
+       
         $this->set(get_defined_vars());
 
     }

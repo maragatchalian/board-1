@@ -23,7 +23,7 @@
                 ),
 
                 'exist' => array(
-                    'verify_username',                         )
+                    'is_username_exist',                         )
                 ),
                     
 
@@ -49,8 +49,8 @@
                 'length' => array(
                     'validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH,
                 ),
-                'is_correct' => array(
-                    'verify_account',
+                'correct' => array(
+                    'is_correct_user',
                 )
             ),
 
@@ -58,8 +58,8 @@
                 'length' => array(
                     'validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH,
                 ),
-                 'is_matched' => array(
-                    'password_match',                 
+                 'match' => array(
+                    'is_password_match',                 
                 ),
             ),
         );
@@ -72,16 +72,24 @@
                 throw new ValidationException('Invalid user credentials');
             }
 
+            $db = DB::conn();
+            
             $params = array(
                 'username'   => $this->username,
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'password' => md5($this->password)
-            );
+                );
 
-            $db = DB::conn();
-            $db->insert('user', $params);
+            try {
+                $db->begin();
+                $db->insert('user', $params);
+                $db->commit();
+            }catch(Exception $e) {
+                $db->rollback();
+                throw $e;
+            }
         }
 
         public function login()
@@ -97,28 +105,28 @@
             
         }
 
-        public function password_match()
+        public function is_password_match()
         {
             return $this->password == $this->confirm_password;
         }
 
-        public function verify_username()
+        public function is_username_exist()
         {
             $db = DB::conn();
             $username_exist = $db->row("SELECT username FROM user WHERE username = ?", array($this->username));
 
-            return $username_exist;
+            return (!$username_exist);
         }
 
-        public function verify_account()
+        public function is_correct_user()
         {
             $db = DB::conn();
             $params = array(
                 'username' => $this->username,
                 'password' => md5($this->password) 
             );
-            $verified_account = $db->row("SELECT username, password FROM user WHERE username = :username && password = :password", $params);
+            $correct_user = $db->row("SELECT username, password FROM user WHERE username = :username && password = :password", $params);
             
-            return $verified_account;
+            return !$correct_user;
         }
     }

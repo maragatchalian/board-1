@@ -19,8 +19,9 @@ function redirect($url)
     exit();
 }
 
-function checkSession(){
-    if(!isset($_SESSION['user_id'])) {
-        redirect(url('user/login'));
+function logged_in()
+{
+    if(isset($_SESSION['user_id'])) {
+        redirect(url('user/home'));
     }
 }

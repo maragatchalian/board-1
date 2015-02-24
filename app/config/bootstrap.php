@@ -9,6 +9,9 @@ require_once APP_DIR.'app_exception.php';
 require_once HELPERS_DIR.'html_helper.php';
 require_once HELPERS_DIR.'validation_helper.php';
 
+//lib
+require_once LIB_DIR.'SimplePagination/SimplePagination.php';
+
 //vendor
 require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
 
@@ -29,3 +32,4 @@ spl_autoload_register(function($name) {
 });
 
 session_start();
+
