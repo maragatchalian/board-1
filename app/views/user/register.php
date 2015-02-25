@@ -2,8 +2,8 @@
 
 <?php if ($user->hasError()): ?>
     <div class="alert alert-block">
-       <?php print_r($user->validation_errors);  ?> 
-        <h4 class="alert-heading">Validation error!</h4>
+
+       <h4 class="alert-heading">Validation error!</h4>
         
         <?php if (!empty($user->validation_errors['username']['length'])): ?>            
         
@@ -12,7 +12,7 @@
             <?php eh($user->validation['username']['length'][2]) ?> characters in length.
         </div>
         <?php endif //Username Validation ?>
-
+ 
         <?php if (!empty($user->validation_errors['username']['exist'])): ?>            
         
         <div>
@@ -114,8 +114,4 @@
 
         <a href="<?php eh(url('user/login')) ?>">Already have an account? Log in here</a>
     </div>
-    
-    
-   
-    
 </form>

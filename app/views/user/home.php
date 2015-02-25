@@ -1,5 +1,3 @@
-<h2>Hi!</h2>
+<h2>Hi! <?php eh($_SESSION['username']) ?></h2>
                         
-
-
-                             
+                 

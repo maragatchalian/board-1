@@ -39,8 +39,7 @@
     </div>
 
     <div class="container">
-      
-      <?php if (isset($_SESSION['user_id'])):?>
+    <?php if (isset($_SESSION['user_id'])):?>
         <nav class="navbar">
           <div class="container-fluid">
             <ul class="nav navbar-nav">

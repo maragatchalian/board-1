@@ -1,8 +1,6 @@
 <?php 
     class ThreadController extends AppController
     {
-        const ITEMS_PER_PAGE = 5;
-        
         public function create()
         {
             $thread = new Thread();
@@ -34,8 +32,17 @@
 
         public function index()
         {
-            $threads = Thread::getAll();
+            $per_page = 5;
+            $page = Param::get('page', 1);
+
+            $pagination = new SimplePagination($page, $per_page) ;
+
+            $threads = Thread::getAll($pagination->start_index -1, $pagination->count + 1);
+            $pagination->checkLastPage($threads);
            
+            $total = Thread::countAll();
+            $pages = ceil($total / $per_page);
+
             $this->set(get_defined_vars()); 
         }
 

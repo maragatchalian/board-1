@@ -1,15 +1,8 @@
 <h1>Login</h1>
-
-<?php if ($user->hasError()): ?>
+<?php if (!$user->is_validated) : ?>
     <div class="alert alert-block">
         <h4 class="alert-heading">Validation error!</h4>
-        
-        <?php if (!empty($user->validation_errors['password']['correct'])): ?>            
-        
-        <div>
-            <em>Invalid Username or Password</em>                
-        </div>
-        <?php endif //Verify User Account ?>
+        <em>Invalid Username or Password</em>                
     </div>
 <?php endif ?>
     
@@ -37,8 +30,4 @@
         
         <a href="<?php eh(url('user/register')) ?>">Don't have an account? Register here</a>
     </div>
-    
-    
-   
-    
 </form>

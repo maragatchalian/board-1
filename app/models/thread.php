@@ -49,11 +49,11 @@
             }
         }
 
-        public static function getAll()
+        public static function getAll($offset, $limit)
         {
             $threads = array();
             $db = DB::conn();
-            $rows = $db->rows('SELECT * FROM thread');
+            $rows = $db->rows("SELECT * FROM thread LIMIT {$offset}, {$limit}");
 
             foreach($rows as $row) {
                 $threads[] = new self($row);
@@ -61,6 +61,13 @@
 
             return $threads;
         }
+
+        public static function countAll()
+        {
+            $db = DB::conn();
+            return (int) $db->value("SELECT COUNT(*) FROM thread");
+        }
+
 
         public static function get($id)
         {

@@ -15,6 +15,7 @@
         const MAX_EMAIL_LENGTH = 254;
         const MAX_PASSWORD_LENGTH = 20;
 
+        public $is_validated = true;
 
         public $validation = array(
             'username' => array(
@@ -23,10 +24,10 @@
                 ),
 
                 'exist' => array(
-                    'is_username_exist',                         )
-                ),
+                    'is_username_exist',                         
+                )
+            ),
                     
-
             'first_name' => array(
                 'length' => array(
                     'validate_between', self::MIN_FIRST_NAME_LENGTH, self::MAX_FIRST_NAME_LENGTH,
@@ -48,9 +49,6 @@
             'password' => array(
                 'length' => array(
                     'validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH,
-                ),
-                'correct' => array(
-                    'is_correct_user',
                 )
             ),
 
@@ -94,15 +92,21 @@
 
         public function login()
         {
-            $this->validate();
-
-            if ($this->hasError()) {
-                throw new ValidationException('Invalid Username or Password');
+            $db = DB::conn();
+            $params = array(
+                'username' => $this->username,
+                'password' => md5($this->password) 
+            );
+            
+            $user = $db->row("SELECT id, username FROM user WHERE username = :username && password = :password", $params);
+            
+            if(!$user) {
+                $this->is_validated = false; 
+                throw new RecordNotFoundException('No Record Found');   
             }
 
-            $db = DB::conn();
-            $_SESSION['user_id'] = $db->row("SELECT id FROM user WHERE username =?", array($this->username));
-            
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] =$user['username'];
         }
 
         public function is_password_match()
@@ -115,18 +119,6 @@
             $db = DB::conn();
             $username_exist = $db->row("SELECT username FROM user WHERE username = ?", array($this->username));
 
-            return (!$username_exist);
+            return !$username_exist;
         }
-
-        public function is_correct_user()
-        {
-            $db = DB::conn();
-            $params = array(
-                'username' => $this->username,
-                'password' => md5($this->password) 
-            );
-            $correct_user = $db->row("SELECT username, password FROM user WHERE username = :username && password = :password", $params);
-            
-            return !$correct_user;
-        }
-    }
+   }

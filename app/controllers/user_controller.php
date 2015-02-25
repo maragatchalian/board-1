@@ -3,6 +3,10 @@ class UserController extends AppController
 {
     public function register() 
     {
+        if (is_logged_in()) {
+            redirect(url('user/home'));
+        }
+        
         $params = array(
             'username' => trim(Param::get('username')),
             'first_name' => trim(Param::get('first_name')),
@@ -36,7 +40,11 @@ class UserController extends AppController
 
     public function login()
     {
-      $params = array(
+        if (is_logged_in()) {
+            redirect(url('user/home'));
+        }
+
+        $params = array(
             'username' => trim(Param::get('username')),
             'password' => Param::get('password'),
         );
