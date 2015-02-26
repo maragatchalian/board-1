@@ -31,19 +31,23 @@ class User extends AppModel
         'first_name' => array(
             'length' => array(
                 'validate_between', self::MIN_FIRST_NAME_LENGTH, self::MAX_FIRST_NAME_LENGTH,
-            ),
+            )
         ),
 
         'last_name' => array(
             'length' => array(
                 'validate_between', self::MIN_LAST_NAME_LENGTH, self::MAX_LAST_NAME_LENGTH,
-            ),
+            )
         ),
 
         'email' => array(
             'length' => array(
                 'validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH,
             ),
+
+            'exist' => array(
+                'is_email_exist',                         
+            )
         ),
 
         'password' => array(
@@ -53,13 +57,9 @@ class User extends AppModel
         ),
 
         'confirm_password' => array(
-            'length' => array(
-                'validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH,
-            ),
-
-             'match' => array(
+           'match' => array(
                 'is_password_match',                 
-            ),
+            )
         ),
     );
 
@@ -77,7 +77,7 @@ class User extends AppModel
             'username'   => $this->username,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'email' => $this->email,
+            'email' => strtolower($this->email),
             'password' => md5($this->password)
             );
 
@@ -99,7 +99,7 @@ class User extends AppModel
             'password' => md5($this->password) 
         );
         
-        $user = $db->row("SELECT id, username FROM user WHERE username = :username && password = :password", $params);
+        $user = $db->row("SELECT id, username FROM user WHERE BINARY username = :username &&  BINARY password = :password", $params);
         
         if (!$user) {
             $this->is_validated = false; 
@@ -119,6 +119,14 @@ class User extends AppModel
     {
         $db = DB::conn();
         $username_exist = $db->row("SELECT username FROM user WHERE username = ?", array($this->username));
+
+        return !$username_exist;
+    }
+
+       public function is_email_exist()
+    {
+        $db = DB::conn();
+        $username_exist = $db->row("SELECT email FROM user WHERE email = ?", array($this->email));
 
         return !$username_exist;
     }

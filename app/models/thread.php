@@ -11,7 +11,7 @@ class Thread extends AppModel
         'title' => array(
             'length' => array(
                 'validate_between', self::MIN_TITLE_LENGTH, self::MAX_TITLE_LENGTH),
-            ),
+            )
         );
 
     public function create(Comment $comment)

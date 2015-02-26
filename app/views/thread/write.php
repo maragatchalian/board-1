@@ -5,13 +5,12 @@
         <h4 class="alert-heading">Validation error!</h4>
         
         <?php if (!empty($comment->validation_errors['username']['length'])) : ?>            
-        
-        <div>
-            <em>Your Username</em> must be between                
-            <?php to_html_entities($comment->validation['username']['length'][1]) ?> and                    
-            <?php to_html_entities($comment->validation['username']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Username Validation ?>
+            <div>
+                <em>Your Username</em> must be between                
+                <?php to_html_entities($comment->validation['username']['length'][1]) ?> and                    
+                <?php to_html_entities($comment->validation['username']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check Username Length ?>
 
         <?php if (!empty($comment->validation_errors['body']['length'])) : ?>                
             <div>
@@ -19,7 +18,7 @@
                 <?php to_html_entities($comment->validation['body']['length'][1]) ?> and                    
                  <?php to_html_entities($comment->validation['body']['length'][2]) ?> characters in length.
             </div>            
-        <?php endif //Comment Validation ?>
+        <?php endif //Check Comment Length ?>
     </div>                    
 <?php endif ?>
             

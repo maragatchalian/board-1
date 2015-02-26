@@ -6,65 +6,57 @@
        <h4 class="alert-heading">Validation error!</h4>
         
         <?php if (!empty($user->validation_errors['username']['length'])) : ?>            
-        
-        <div><em>Your Username</em> must be between                
-            <?php to_html_entities($user->validation['username']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['username']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Username Validation ?>
+            <div><em>Your Username</em> must be between                
+                <?php to_html_entities($user->validation['username']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['username']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check Username Length ?>
  
         <?php if (!empty($user->validation_errors['username']['exist'])) : ?>            
-        
-        <div>
-            <em>Your already have an account. Please Log in.</em>              
-        </div>
+            <div>
+                <em>Username is already taken</em>              
+            </div>
         <?php endif //Check if Username exist ?>
 
         <?php if (!empty($user->validation_errors['first_name']['length'])) : ?>            
-        
-        <div><em>Your First Name</em> must be between                
-            <?php to_html_entities($user->validation['first_name']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['first_name']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //First Name Validation ?>
+             <div><em>Your First Name</em> must be between                
+                <?php to_html_entities($user->validation['first_name']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['first_name']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check First Name Length ?>
 
         <?php if (!empty($user->validation_errors['last_name']['length'])) : ?>            
-        
-        <div><em>Your Last Name</em> must be between                
-            <?php to_html_entities($user->validation['last_name']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['last_name']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Last Name Validation ?>
+            <div><em>Your Last Name</em> must be between                
+                <?php to_html_entities($user->validation['last_name']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['last_name']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check Last Name Length ?>
 
         <?php if (!empty($user->validation_errors['email']['length'])) : ?>            
-        
-        <div><em>Your Email</em> must be between                
-            <?php to_html_entities($user->validation['email']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['email']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Email Validation ?>
+            <div><em>Your Email</em> must be between                
+                <?php to_html_entities($user->validation['email']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['email']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check Email Length ?>
+
+        <?php if (!empty($user->validation_errors['email']['exist'])) : ?>            
+             <div>
+                <em>Email is already registered</em>              
+            </div>
+        <?php endif //Check if Email exist ?>
 
         <?php if (!empty($user->validation_errors['password']['length'])) : ?>            
-        
-        <div><em>Your Password</em> must be between                
-            <?php to_html_entities($user->validation['password']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['password']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Password Validation ?>
+            <div><em>Your Password</em> must be between                
+                <?php to_html_entities($user->validation['password']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['password']['length'][2]) ?> characters in length.
+            </div>
+        <?php endif //Check Password Length ?>
 
-        <?php if (!empty($user->validation_errors['confirm_password']['length'])) : ?>            
-        
-        <div><em>Your Confirm Password</em> must be between                
-            <?php to_html_entities($user->validation['confirm_password']['length'][1]) ?> and                    
-            <?php to_html_entities($user->validation['confirm_password']['length'][2]) ?> characters in length.
-        </div>
-        <?php endif //Confirm Password Validation ?>
-        
         <?php if (!empty($user->validation_errors['confirm_password']['match'])) : ?>            
-        <div>
-            <em>Your Password</em> must be equal to your 
-            <em>Current Password</em>                
-        </div>
+            <div>
+                <em>Your Password</em> must be equal to your 
+                <em>Current Password</em>                
+            </div>
         <?php endif //Check if Password and Confirm Password match ?>
 
     </div>

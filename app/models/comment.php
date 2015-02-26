@@ -2,12 +2,12 @@
 class Comment extends AppModel
 {
    //Minimum Length Values
-   const MIN_USERNAME_LENGTH = 1;
-   const MIN_BODY_LENGTH = 1;
+  const MIN_USERNAME_LENGTH = 1;
+  const MIN_BODY_LENGTH = 1;
 
    //Maximum Length Values
-   const MAX_USERNAME_LENGTH = 20;
-   const MAX_BODY_LENGTH = 200;
+  const MAX_USERNAME_LENGTH = 20;
+  const MAX_BODY_LENGTH = 200;
 
   public $validation = array(
      'username' => array(
