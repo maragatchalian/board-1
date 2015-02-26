@@ -2,16 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>
-        Board
-        <?php
-          if (isset($thread)) {
-            echo " - ";
-            eh($thread->title);  
-          }
-        ?>
-      </title>
-   
+    <title>Board</title>
     <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     

@@ -35,7 +35,7 @@
             $per_page = 5;
             $page = Param::get('page', 1);
 
-            $pagination = new SimplePagination($page, $per_page) ;
+            $pagination = new SimplePagination($page, $per_page);
 
             $threads = Thread::getAll($pagination->start_index -1, $pagination->count + 1);
             $pagination->checkLastPage($threads);
@@ -48,10 +48,20 @@
 
         public function view()
         {
-            $thread = Thread::get(Param::get('thread_id'));
-            $comments = $thread->getComments();
+            $per_page = 5;
+            $page = Param::get('page', 1);
 
-            $this->set(get_defined_vars());
+            $pagination = new SimplePagination($page, $per_page) ;
+
+            $thread = Thread::get(Param::get('thread_id'));
+            $comments = $thread->getComments($pagination->start_index -1, $pagination->count + 1);
+
+            $pagination->checkLastPage($comments);
+           
+            $total = $thread->countComments();
+            $pages = ceil($total / $per_page);
+
+            $this->set(get_defined_vars()); 
         }
 
         public function write()

@@ -6,16 +6,16 @@ class AppController extends Controller
     function beforeFilter()
     {
         $exclude = array(
-        'user/register',
-        'user/login'
+            'user/register',
+            'user/login'
         );
 
         if (in_array(Param::get(DC_ACTION), $exclude)) {
-        return;
+            return;
         }
 
         if (!is_logged_in()) {
-        redirect(url('user/login'));
+            redirect(url('user/login'));
         }
     }
 }

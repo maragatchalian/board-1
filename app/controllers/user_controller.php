@@ -79,9 +79,7 @@ class UserController extends AppController
 
     public function home()
     {
-       
-        $this->set(get_defined_vars());
-
+       $this->set(get_defined_vars());
     }
 }
  

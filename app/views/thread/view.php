@@ -1,14 +1,36 @@
 <h1><?php eh($thread->title) ?></h1>
 
-<?php foreach ($comments as $k => $v): ?>
+<?php foreach ($comments as $comment): ?>
     <div class="comment">
         <div class="meta">
-            <h4><?php eh($k + 1) ?>: <?php eh($v->username) ?></h4> <?php eh($v->created) ?>
+            <h4><?php eh($comment->username) ?></h4> <?php eh($comment->created) ?>
         </div>
-        <div><?php echo readable_text($v->body) ?></div>
+        <div><?php echo readable_text($comment->body) ?></div>
     </div>
     <br />
 <?php endforeach ?>
+
+<!-- pagination -->
+
+<?php if($pagination->current > 1): ?>
+  <a href='?thread_id=<?php eh($thread->id) ?>&page=<?php echo $pagination->prev ?>'>Previous</a>
+<?php else: ?>
+  Previous
+<?php endif ?>
+
+<?php for($i = 1; $i <= $pages; $i++): ?>
+  <?php if($i == $page): ?>
+    <?php echo $i ?>
+  <?php else: ?>
+   <a href='?thread_id=<?php eh($thread->id) ?>&page=<?php echo $i ?>'><?php echo $i ?></a>
+  <?php endif; ?>
+<?php endfor; ?>
+
+<?php if(!$pagination->is_last_page): ?>
+  <a href='?thread_id=<?php eh($thread->id) ?>&page=<?php echo $pagination->next ?>'>Next</a>
+<?php else: ?>
+  Next
+<?php endif ?>
 
 <hr>
                     

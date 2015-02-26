@@ -68,6 +68,12 @@
             return (int) $db->value("SELECT COUNT(*) FROM thread");
         }
 
+        public function countComments()
+        {
+            $db = DB::conn();
+            return (int) $db->value("SELECT COUNT(*) FROM comment WHERE thread_id = ? ", array($this->id));
+        }
+
 
         public static function get($id)
         {
@@ -81,14 +87,13 @@
             return new self($row);
         }
 
-        public function getComments()
+        public function getComments($offset, $limit)
         {
             $comments = array();
             $db = DB::conn();
+            $rows = $db->rows("SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC LIMIT {$offset}, {$limit}", array($this->id));
 
-            $rows = $db->rows('SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC', array($this->id));
-
-            foreach ($rows as $row) {
+            foreach($rows as $row) {
                 $comments[] = new Comment($row);
             }
 
