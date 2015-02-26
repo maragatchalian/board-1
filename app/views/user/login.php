@@ -6,16 +6,16 @@
     </div>
 <?php endif ?>
     
-<form action="<?php eh(url('')) ?>" method="post">
+<form action="<?php to_html_entities(url('')) ?>" method="post">
 
     <div class="span12">
         <label for="username"><h4>Username</h4></label>
-        <input type="text" name="username" value="<?php eh(Param::get('username')) ?>">
+        <input type="text" name="username" value="<?php to_html_entities(Param::get('username')) ?>">
     </div>
 
     <div class="span12">
         <label for="password"><h4>Password</h4></label>
-        <input type="password" name="password" value="<?php eh(Param::get('password')) ?>">
+        <input type="password" name="password" value="<?php to_html_entities(Param::get('password')) ?>">
     </div>
     
     <br />
@@ -28,6 +28,6 @@
         <br />
         <br />
         
-        <a href="<?php eh(url('user/register')) ?>">Don't have an account? Register here</a>
+        <a href="<?php to_html_entities(url('user/register')) ?>">Don't have an account? Register here</a>
     </div>
 </form>
