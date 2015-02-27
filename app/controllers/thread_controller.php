@@ -1,6 +1,8 @@
 <?php 
 class ThreadController extends AppController
 {
+    const MAX_ITEMS_PER_PAGE = 5;
+
     public function create()
     {
         $thread = new Thread();
@@ -33,26 +35,24 @@ class ThreadController extends AppController
 
     public function index()
     {
-        $per_page = 5;
         $page = Param::get('page', 1);
 
-        $pagination = new SimplePagination($page, $per_page);
+        $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE);
 
         $threads = Thread::getAll($pagination->start_index -1, $pagination->count + 1);
         $pagination->checkLastPage($threads);
        
         $total = Thread::countAll();
-        $pages = ceil($total / $per_page);
+        $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
 
         $this->set(get_defined_vars()); 
     }
 
-    public function view()
+     public function view()
     {
-        $per_page = 5;
         $page = Param::get('page', 1);
 
-        $pagination = new SimplePagination($page, $per_page) ;
+        $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
 
         $thread = Thread::get(Param::get('thread_id'));
         $comments = $thread->getComments($pagination->start_index -1, $pagination->count + 1);
@@ -60,7 +60,7 @@ class ThreadController extends AppController
         $pagination->checkLastPage($comments);
        
         $total = $thread->countComments();
-        $pages = ceil($total / $per_page);
+        $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
 
         $this->set(get_defined_vars()); 
     }

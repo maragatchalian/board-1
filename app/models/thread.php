@@ -16,36 +16,33 @@ class Thread extends AppModel
 
     public function create(Comment $comment)
     {
-        $this->validate();
-        $comment->validate();
-
-        if ($this->hasError() || $comment->hasError()) {
+        if (!$this->validate() || !$comment->validate()) {
             throw new ValidationException('Invalid thread or comment');
         }
 
         $db = DB::conn();
         
         $date_created = date("Y-m-d H:i:s");
-
-        $params = array(
-        'title' => $this->title,
-        'created'=> $date_created
-        );
-
+        
         try {
             $db->begin();
-            $db->insert('thread', $params);
+            $db->insert(
+                'thread', array(
+                    'title' => $this->title, 
+                    'created' => $date_created
+                    )
+                );
 
-             $this->id = $db->lastInsertId();
-            //returns the latest inserted id
+            $this->id = $db->lastInsertId();
+            //set the new thread id
 
             $this->write($comment);
-            //write first comment at the same time
+            //write comment at the same time
         
             $db->commit();
+
         }catch (Exception $e) {
             $db->rollback();
-
         }
     }
 
@@ -67,13 +64,12 @@ class Thread extends AppModel
         $db = DB::conn();
         return (int) $db->value("SELECT COUNT(*) FROM thread");
     }
-
-    public function countComments()
+    
+     public function countComments()
     {
         $db = DB::conn();
         return (int) $db->value("SELECT COUNT(*) FROM comment WHERE thread_id = ? ", array($this->id));
     }
-
 
     public static function get($id)
     {
@@ -87,16 +83,14 @@ class Thread extends AppModel
         return new self($row);
     }
 
-    public function getComments($offset, $limit)
+     public function getComments($offset, $limit)
     {
         $comments = array();
         $db = DB::conn();
         $rows = $db->rows("SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC LIMIT {$offset}, {$limit}", array($this->id));
-
         foreach($rows as $row) {
-            $comments[] = new Comment($row);
+        $comments[] = new Comment($row);
         }
-
         return $comments;
     }
 
@@ -107,9 +101,20 @@ class Thread extends AppModel
         }
 
         $db = DB::conn();
-        $db->query(
-           'INSERT INTO comment SET thread_id = ?, username = ?, body = ?, created = NOW()',        
-         array($this->id, $comment->username, $comment->body)
-         );
+        
+        try {
+            $db->begin();
+            $db->insert(
+                'comment', array(
+                    'thread_id' => $this->id, 
+                    'username' => $comment->username, 
+                    'body' => $comment->body
+                    )
+                );
+            $db->commit();
+        
+        }catch (Exception $e) {
+            $db->rollback();
+        }
     }
 }

@@ -73,18 +73,19 @@ class User extends AppModel
 
         $db = DB::conn();
         
-        $params = array(
-            'username'   => $this->username,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => strtolower($this->email),
-            'password' => md5($this->password)
-            );
-
         try {
             $db->begin();
-            $db->insert('user', $params);
+            $db->insert(
+                'user', array(
+                    'username' => $this->username,
+                    'first_name' => $this->first_name,
+                    'last_name' => $this->last_name,
+                    'email' => strtolower($this->email),
+                    'password' => md5($this->password)
+                    )   
+                );
             $db->commit();
+
         }catch(Exception $e) {
             $db->rollback();
             throw $e;

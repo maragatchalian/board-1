@@ -20,7 +20,7 @@
     
     <br />
 
-    <input type="hidden" name="page_next" value="home">
+    <input type="hidden" name="page_next" value="index">
 
     <div class="span12">
         <button class="btn btn-info btn-large" type="submit">Login</button>

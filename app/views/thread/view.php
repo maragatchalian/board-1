@@ -18,7 +18,7 @@
   Previous
 <?php endif ?>
 
-<?php for($i = 1; $i <= $pages; $i++) : ?>
+<?php for($i = 1; $i <= $num_pages; $i++) : ?>
   <?php if($i == $page): ?>
     <?php echo $i ?>
   <?php else: ?>

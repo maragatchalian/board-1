@@ -4,19 +4,19 @@ class UserController extends AppController
     public function register() 
     {
         if (is_logged_in()) {
-            redirect(url('user/home'));
+            redirect(url('user/index'));
         }
         
-        $params = array(
-            'username' => trim(Param::get('username')),
-            'first_name' => trim(Param::get('first_name')),
-            'last_name' => trim(Param::get('last_name')),
-            'email' => trim(Param::get('email')),
-            'password' => Param::get('password'),
-            'confirm_password' => Param::get('confirm_password'),
-        );
+        $user = new User(array(
+                            'username' => Param::get('username'),
+                            'first_name' => Param::get('first_name'),
+                            'last_name' => Param::get('last_name'),
+                            'email' => Param::get('email'),
+                            'password' => Param::get('password'),
+                            'confirm_password' => Param::get('confirm_password')
+                            )
+                        );
 
-        $user = new User($params);
         $page = Param::get('page_next', 'register');
  
         switch ($page){
@@ -41,11 +41,11 @@ class UserController extends AppController
     public function login()
     {
         if (is_logged_in()) {
-            redirect(url('user/home'));
+            redirect(url('user/index'));
         }
 
         $params = array(
-            'username' => trim(Param::get('username')),
+            'username' => Param::get('username'),
             'password' => Param::get('password'),
         );
 
@@ -55,7 +55,7 @@ class UserController extends AppController
         switch ($page) {
             case 'login':
                 break;
-            case 'home':
+            case 'index':
                 try {
                     $user->login();
                 }catch (ValidationException $e) {
@@ -77,9 +77,8 @@ class UserController extends AppController
         redirect(url('user/login'));
     }
 
-    public function home()
+    public function index()
     {
-       $this->set(get_defined_vars());
     }
 }
  
