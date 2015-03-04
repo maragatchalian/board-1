@@ -23,8 +23,6 @@
 <?php endif ?>
             
 <form class="well" method="post" action="<?php to_html_entities(url('thread/write')) ?>">
-    <label>Your name</label>
-    <input type="text" class="span2" name="username" value="<?php to_html_entities(Param::get('username')) ?>">
     <label>Comment</label>
     <textarea name="body"><?php to_html_entities(Param::get('body')) ?></textarea>
     <br />
