@@ -39,6 +39,37 @@ class Comment extends AppModel
         }
         return $comments;
   }
+
+  public static function get($id)
+  {
+      $db = DB::conn();
+      $row = $db->row('SELECT * FROM comment WHERE id = ?', array($id));
+
+      if (!$row) {
+          throw new RecordNotFoundException('no record found');
+      }
+
+      return new self($row);
+  }
+
+  public function delete()
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
+            $db->commit();
+            } catch (Exception $e) {
+            $db->rollback();
+        }
+
+        redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
+    }
+
+  public function is_user_comment()
+    {
+      return $this->user_id === $_SESSION['user_id'];
+    }
 }
 
 

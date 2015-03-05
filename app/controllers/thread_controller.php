@@ -56,6 +56,8 @@ class ThreadController extends AppController
         $thread_id = Param::get('thread_id');
         $thread = Thread::get($thread_id);
 
+        $_SESSION['thread_id'] = $thread_id;
+
         $comments = Comment::getAll($pagination->start_index -1, $pagination->count + 1, $thread_id);
 
         $pagination->checkLastPage($comments);

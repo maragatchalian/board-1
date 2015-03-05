@@ -160,5 +160,5 @@ class Thread extends AppModel
         $followed_thread = $db->row('SELECT * FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
         
         return !$followed_thread;
-    }
+    }    
 }

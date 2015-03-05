@@ -25,6 +25,16 @@
         </div>
         
         <div><?php echo readable_text($comment->body) ?></div>
+      
+        <div>
+          <?php if ($comment->is_user_comment()) : ?>
+            <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
+            onclick="return confirm('Are you sure you want to delete this comment?')"> 
+              Delete this comment
+            </a>
+          <?php endif //Delete Comment ?>
+        </div>
+
     </div>
     <br />
 <?php endforeach ?>
