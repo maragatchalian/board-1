@@ -100,4 +100,16 @@ class ThreadController extends AppController
         $thread = Thread::get(Param::get('thread_id'));
         $thread->delete();
     }
+
+    public function follow()
+    {
+        $thread = Thread::get(Param::get('thread_id'));
+        $thread->follow();
+    }
+
+    public function unfollow()
+    {
+        $thread = Thread::get(Param::get('thread_id'));
+        $thread->unfollow();
+    }
 }

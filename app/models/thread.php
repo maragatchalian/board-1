@@ -120,5 +120,45 @@ class Thread extends AppModel
             } catch (Exception $e) {
             $db->rollback();
         }
+
+        redirect(url('thread/index'));
+    }
+
+    public function follow()
+    {
+         try {
+            $db = DB::conn();
+            $db->begin();
+            $db->insert('follow', array('thread_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
+            $db->commit();
+            } catch (Exception $e) {
+            $db->rollback();
+        }
+
+        redirect(url('thread/view', array('thread_id' => $this->id)));
+    }
+
+    public function unfollow()
+    {
+         try {
+            $db = DB::conn();
+            $db->begin();
+            $db->query('DELETE FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
+            $db->commit();
+            } catch (Exception $e) {
+            $db->rollback();
+        }
+
+        redirect(url('thread/view', array('thread_id' => $this->id)));
+
+        
+    }
+
+    public function is_followed_thread()
+    {
+        $db = DB::conn();
+        $followed_thread = $db->row('SELECT * FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
+        
+        return !$followed_thread;
     }
 }
