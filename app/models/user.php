@@ -124,11 +124,20 @@ class User extends AppModel
         return !$username_exist;
     }
 
-       public function is_email_exist()
+    public function is_email_exist()
     {
         $db = DB::conn();
         $username_exist = $db->row("SELECT email FROM user WHERE email = ?", array($this->email));
 
         return !$username_exist;
     }
+
+    public static function get_username($user_id)
+    {
+        $db = DB::conn();
+        $user = $db->row("SELECT username FROM user WHERE id = ?", array($user_id));    
+
+        echo $user['username'];
+    }
+
 }

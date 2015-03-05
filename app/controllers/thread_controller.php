@@ -15,7 +15,6 @@ class ThreadController extends AppController
                 break;
             case 'create_end':
                 $thread->title = Param::get('title');
-                $comment->username = Param::get('username');
                 $comment->body = Param::get('body');
 
                 try {
@@ -54,12 +53,14 @@ class ThreadController extends AppController
 
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
 
-        $thread = Thread::get(Param::get('thread_id'));
-        $comments = $thread->getComments($pagination->start_index -1, $pagination->count + 1);
+        $thread_id = Param::get('thread_id');
+        $thread = Thread::get($thread_id);
+
+        $comments = Comment::getAll($pagination->start_index -1, $pagination->count + 1, $thread_id);
 
         $pagination->checkLastPage($comments);
        
-        $total = $thread->countComments();
+        $total = Comment::countAll($thread_id);
         $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
 
         $this->set(get_defined_vars()); 
@@ -76,7 +77,6 @@ class ThreadController extends AppController
             break;
 
             case 'write_end':                
-            $comment->username = Param::get('username');
             $comment->body = Param::get('body');
             try {            
                 $thread->write($comment);
@@ -93,5 +93,11 @@ class ThreadController extends AppController
 
         $this->set(get_defined_vars());
         $this->render($page);
+    }
+
+    public function delete()
+    {
+        $thread = Thread::get(Param::get('thread_id'));
+        $thread->delete();
     }
 }

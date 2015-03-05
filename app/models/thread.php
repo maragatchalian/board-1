@@ -28,6 +28,7 @@ class Thread extends AppModel
             $db->begin();
             $db->insert(
                 'thread', array(
+                    'user_id'=>$_SESSION['user_id'],
                     'title' => $this->title, 
                     'created' => $date_created
                     )
@@ -65,12 +66,6 @@ class Thread extends AppModel
         return (int) $db->value("SELECT COUNT(*) FROM thread");
     }
     
-     public function countComments()
-    {
-        $db = DB::conn();
-        return (int) $db->value("SELECT COUNT(*) FROM comment WHERE thread_id = ? ", array($this->id));
-    }
-
     public static function get($id)
     {
         $db = DB::conn();
@@ -83,17 +78,6 @@ class Thread extends AppModel
         return new self($row);
     }
 
-     public function getComments($offset, $limit)
-    {
-        $comments = array();
-        $db = DB::conn();
-        $rows = $db->rows("SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC LIMIT {$offset}, {$limit}", array($this->id));
-        foreach($rows as $row) {
-        $comments[] = new Comment($row);
-        }
-        return $comments;
-    }
-
     public function write(Comment $comment)
     {
         if(!$comment->validate()) {
@@ -101,19 +85,39 @@ class Thread extends AppModel
         }
 
         $db = DB::conn();
+
+        $date_created = date("Y-m-d H:i:s");
         
         try {
             $db->begin();
             $db->insert(
                 'comment', array(
                     'thread_id' => $this->id, 
-                    'username' => $comment->username, 
-                    'body' => $comment->body
+                    'user_id' => $_SESSION['user_id'],
+                    'body' => $comment->body,
+                    'created' => $date_created
                     )
                 );
             $db->commit();
         
         }catch (Exception $e) {
+            $db->rollback();
+        }
+    }
+
+    public function is_user_thread()
+    {
+        return $this->user_id === $_SESSION['user_id'];
+    }
+
+    public function delete()
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->query('DELETE FROM thread WHERE id = ?', array($this->id));
+            $db->commit();
+            } catch (Exception $e) {
             $db->rollback();
         }
     }
