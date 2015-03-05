@@ -149,9 +149,7 @@ class Thread extends AppModel
             $db->rollback();
         }
 
-        redirect(url('thread/view', array('thread_id' => $this->id)));
-
-        
+        redirect(url('thread/view', array('thread_id' => $this->id)));   
     }
 
     public function is_followed_thread()
@@ -159,6 +157,6 @@ class Thread extends AppModel
         $db = DB::conn();
         $followed_thread = $db->row('SELECT * FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
         
-        return !$followed_thread;
+        return $followed_thread;
     }    
 }

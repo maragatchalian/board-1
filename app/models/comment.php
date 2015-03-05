@@ -53,23 +53,60 @@ class Comment extends AppModel
   }
 
   public function delete()
-    {
-        try {
-            $db = DB::conn();
-            $db->begin();
-            $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
-            $db->commit();
-            } catch (Exception $e) {
-            $db->rollback();
-        }
+  {
+      try {
+          $db = DB::conn();
+          $db->begin();
+          $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
+          $db->commit();
+          } catch (Exception $e) {
+          $db->rollback();
+      }
 
-        redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
-    }
+      redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
+  }
 
   public function is_user_comment()
-    {
-      return $this->user_id === $_SESSION['user_id'];
+  {
+    return $this->user_id === $_SESSION['user_id'];
+  }
+
+  public function likes()
+  {
+    try {
+        $db = DB::conn();
+        $db->begin();
+        $db->insert('likes', array('comment_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
+        $db->commit();
+        } catch (Exception $e) {
+        $db->rollback();
     }
+
+    redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
+  }
+
+  public function unlikes()
+  {
+    try {
+        $db = DB::conn();
+        $db->begin();
+        $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
+        $db->commit();
+        } catch (Exception $e) {
+        $db->rollback();
+    }
+
+    redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
+  }
+
+  public function is_comment_liked()
+  {
+    $db = DB::conn();
+    $comment_liked = $db->row('SELECT * FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
+    
+    return !$comment_liked;
+  }
+
 }
 
 

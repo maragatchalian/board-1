@@ -1,8 +1,8 @@
 <h1><?php to_html_entities($thread->title) ?></h1>
 
-<?php if ($thread->is_followed_thread()) : ?>
+<?php if (!$thread->is_followed_thread()) : ?>
   <a href="<?php to_html_entities(url('thread/follow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
-<?php else :?>
+<?php else : ?>
   <a href="<?php to_html_entities(url('thread/unfollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 
 <?php endif // Follow Thread ?> 
 
@@ -18,25 +18,33 @@
 <br />
 
 <?php foreach ($comments as $comment) : ?>
-    <div class="comment">
-        <div class="meta">
-            <h4><?php to_html_entities(User::get_username($comment->user_id)) ?></h4> 
-            <?php to_html_entities($comment->created) ?>
-        </div>
-        
-        <div><?php echo readable_text($comment->body) ?></div>
-      
-        <div>
-          <?php if ($comment->is_user_comment()) : ?>
-            <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
-            onclick="return confirm('Are you sure you want to delete this comment?')"> 
-              Delete this comment
-            </a>
-          <?php endif //Delete Comment ?>
-        </div>
+  <div class="comment">
+      <div class="meta">
+          <h4><?php to_html_entities(User::get_username($comment->user_id)) ?></h4> 
 
+          <?php to_html_entities($comment->created) ?>
+      </div>
+      
+      <div><?php echo readable_text($comment->body) ?></div>
+    
+      <div>
+        <?php if ($comment->is_comment_liked()) : ?>
+          <a href="<?php to_html_entities(url('comment/likes', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> Likes
+        <?php else : ?>
+          <a href="<?php to_html_entities(url('comment/unlikes', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a> Likes
+        <?php endif //Like Comment ?>
+          
+        <?php if ($comment->is_user_comment()) : ?>
+          | <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
+          onclick="return confirm('Are you sure you want to delete this comment?')"> 
+            Delete this comment
+          </a>
+        <?php endif //Delete Comment ?>
+      </div>
     </div>
+
     <br />
+
 <?php endforeach ?>
 
 <!-- pagination -->
