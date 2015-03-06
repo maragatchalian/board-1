@@ -37,9 +37,16 @@
             <ul class="nav navbar-nav">
               <li><a href="<?php to_html_entities(url('user/index')) ?>">Home</a></li>
               <li><a href="<?php to_html_entities(url('thread/index')) ?>">All Threads</a></li>
-              <li><a href="<?php to_html_entities(url('thread/most_followed')) ?>">Top 10 Threads</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  Top 10 Threads <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="<?php to_html_entities(url('thread/most_followed')) ?>">Most Followed Threads</a></li>
+                </ul>
+              </li>              
               <li><a href="<?php to_html_entities(url('thread/create')) ?>">Create New Thread</a></li>
-            </ul>
+          </ul>
             
             <ul class="nav navbar-nav pull-right">
               <li><a href="<?php to_html_entities(url('user/logout')) ?>">Logout</a></li>
@@ -55,6 +62,9 @@
     <script>
       console.log(<?php to_html_entities(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
 
   </body>
 </html>
