@@ -168,4 +168,26 @@ class Thread extends AppModel
         echo $total_followers;
     }
 
+    public static function get_most_followed()
+    {
+        $threads = array();
+        $db = DB::conn();
+        $rows = $db->rows("SELECT thread_id, COUNT(thread_id) AS total_followers FROM follow 
+            GROUP BY thread_id ORDER BY total_followers DESC LIMIT 10;");
+
+        foreach($rows as $row) {
+            $thread[] = new self($row);
+        }
+
+        return $thread;           
+    }
+
+    public static function getTitle($thread_id)
+    {
+        $db = DB::conn();
+        $thread = $db->row("SELECT title FROM thread WHERE id = ?", array($thread_id));
+        
+        echo $thread['title'];
+    }
+
 }

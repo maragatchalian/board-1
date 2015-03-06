@@ -68,9 +68,11 @@ class ThreadController extends AppController
         $this->set(get_defined_vars()); 
     }
 
-    public function ranking()
+    public function most_followed()
     {
-       
+       $threads = Thread::get_most_followed();
+
+       $this->set(get_defined_vars());
     }
 
     public function write()

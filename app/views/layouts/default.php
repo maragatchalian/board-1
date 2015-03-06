@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Board</title>
+    <title>Hello Board</title>
     <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/glyphicons-extended.min.css" rel="stylesheet">
@@ -22,7 +22,7 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="<?php to_html_entities(url('user/index')) ?>">Hello Board</a>
@@ -37,7 +37,7 @@
             <ul class="nav navbar-nav">
               <li><a href="<?php to_html_entities(url('user/index')) ?>">Home</a></li>
               <li><a href="<?php to_html_entities(url('thread/index')) ?>">All Threads</a></li>
-              <li><a href="<?php to_html_entities(url('thread/ranking')) ?>">Top 10 Threads</a></li>
+              <li><a href="<?php to_html_entities(url('thread/most_followed')) ?>">Top 10 Threads</a></li>
               <li><a href="<?php to_html_entities(url('thread/create')) ?>">Create New Thread</a></li>
             </ul>
             
