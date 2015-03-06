@@ -107,6 +107,13 @@ class Comment extends AppModel
     return !$comment_liked;
   }
 
+  public function countLikes()
+  {
+    $db = DB::conn();
+    $total_likes = $db->value('SELECT COUNT(*) FROM likes WHERE comment_id =?', array($this->id));
+
+    echo $total_likes;
+  }
 }
 
 

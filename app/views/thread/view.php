@@ -29,10 +29,12 @@
     
       <div>
         <?php if ($comment->is_comment_liked()) : ?>
-          <a href="<?php to_html_entities(url('comment/likes', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> Likes
+          <a href="<?php to_html_entities(url('comment/likes', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> 
         <?php else : ?>
-          <a href="<?php to_html_entities(url('comment/unlikes', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a> Likes
+          <a href="<?php to_html_entities(url('comment/unlikes', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a>
         <?php endif //Like Comment ?>
+
+        <?php $comment->countLikes() //Count Likes ?> Likes
           
         <?php if ($comment->is_user_comment()) : ?>
           | <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
