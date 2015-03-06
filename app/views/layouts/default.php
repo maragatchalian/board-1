@@ -25,7 +25,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="<?php to_html_entities(url('user/index')) ?>">DietCake Board</a>
+          <a class="brand" href="<?php to_html_entities(url('user/index')) ?>">Hello Board</a>
         </div>
       </div>
     </div>
@@ -37,6 +37,7 @@
             <ul class="nav navbar-nav">
               <li><a href="<?php to_html_entities(url('user/index')) ?>">Home</a></li>
               <li><a href="<?php to_html_entities(url('thread/index')) ?>">All Threads</a></li>
+              <li><a href="<?php to_html_entities(url('thread/ranking')) ?>">Top 10 Threads</a></li>
               <li><a href="<?php to_html_entities(url('thread/create')) ?>">Create New Thread</a></li>
             </ul>
             

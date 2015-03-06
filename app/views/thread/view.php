@@ -1,5 +1,9 @@
 <h1><?php to_html_entities($thread->title) ?></h1>
 
+<div>
+  <?php $thread->countFollowers() ?> Following  
+</div>
+
 <?php if (!$thread->is_followed_thread()) : ?>
   <a href="<?php to_html_entities(url('thread/follow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
 <?php else : ?>

@@ -68,6 +68,11 @@ class ThreadController extends AppController
         $this->set(get_defined_vars()); 
     }
 
+    public function ranking()
+    {
+       
+    }
+
     public function write()
     {
         $thread = Thread::get(Param::get('thread_id'));
