@@ -80,5 +80,12 @@ class UserController extends AppController
     public function index()
     {
     }
+
+    public function profile()
+    {
+        $user = User::get();
+
+        $this->set(get_defined_vars());
+    }
 }
  

@@ -50,6 +50,7 @@
           </ul>
             
             <ul class="nav navbar-nav pull-right">
+              <li><a href="<?php to_html_entities(url('user/profile')) ?>">Profile</a></li>
               <li><a href="<?php to_html_entities(url('user/logout')) ?>">Logout</a></li>
             </ul>
           </div>

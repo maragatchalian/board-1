@@ -140,4 +140,16 @@ class User extends AppModel
         echo $user['username'];
     }
 
+    public static function get()
+    {
+        $db = DB::conn();
+        $row = $db->row("SELECT * FROM user WHERE id = ?", array($_SESSION['user_id']));    
+        
+        if (!$row) {
+            throw new RecordNotFoundException('no record found');
+        }
+
+        return new self($row);
+    }
+
 }
