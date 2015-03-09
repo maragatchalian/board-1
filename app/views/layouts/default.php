@@ -5,6 +5,7 @@
     <title>Hello Board</title>
     <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/custom.css" rel="stylesheet">
     <link href="/bootstrap/css/glyphicons-extended.min.css" rel="stylesheet">
     
     <!-- HTML5 shim and Respond.js for IE8 su pport of HTML5 elements and media queries -->

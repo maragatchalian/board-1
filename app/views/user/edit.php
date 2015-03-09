@@ -37,6 +37,10 @@
 
 <form action="<?php to_html_entities(url('')) ?>" method="post"> 
     <div class="span12">
+        <img class="large-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
+    </div>
+
+    <div class="span12">
         <label for="first_name"><h4>First Name</h4></label>
         <input type="text" name="first_name" value="<?php to_html_entities(Param::get('first_name')) ?>">
     </div>

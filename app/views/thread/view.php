@@ -23,6 +23,11 @@
 
 <?php foreach ($comments as $comment) : ?>
   <div class="comment">
+    
+      <div>
+        <img class="small-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
+      </div>
+
       <div class="meta">
           <h4><?php to_html_entities(User::get_username($comment->user_id)) ?></h4> 
 
