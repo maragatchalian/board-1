@@ -70,9 +70,9 @@ class ThreadController extends AppController
 
     public function most_followed()
     {
-       $threads = Thread::get_most_followed();
+        $threads = Thread::get_most_followed();
 
-       $this->set(get_defined_vars());
+        $this->set(get_defined_vars());
     }
 
     public function write()

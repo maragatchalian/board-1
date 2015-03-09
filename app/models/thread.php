@@ -181,7 +181,7 @@ class Thread extends AppModel
 
         return $thread;           
     }
-
+    
     public static function getTitle($thread_id)
     {
         $db = DB::conn();

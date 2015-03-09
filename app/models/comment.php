@@ -114,6 +114,41 @@ class Comment extends AppModel
 
     echo $total_likes;
   }
+
+  public static function get_most_liked()
+  {
+    $comment = array();
+    $db = DB::conn();
+    $rows = $db->rows("SELECT id, comment_id, user_id, COUNT(comment_id) AS total_likes FROM likes 
+        GROUP BY comment_id ORDER BY total_likes DESC LIMIT 10;");
+
+    foreach($rows as $row) {
+        $comment[] = new self($row);
+    }
+
+    return $comment;           
+  }
+
+  public function get_thread_id()
+  {
+    $db = DB::conn();
+
+    $thread_id = $db->row('SELECT thread_id from comment where id = ?', array($this->comment_id));
+
+    return implode($thread_id);
+  }
+
+  public function get_comment_snippet()
+  {
+    $db = DB::conn();
+
+    $comment_body = $db->row('SELECT body from comment where id = ?', array($this->comment_id));
+
+    $comment_snippet = substr(implode($comment_body), 0, 30) . "..." ;
+
+    echo $comment_snippet;
+  }
+
 }
 
 
