@@ -4,7 +4,7 @@
   <?php $thread->countFollowers() ?> Followers  
 </div>
 
-<?php if (!$thread->is_followed_thread()) : ?>
+<?php if (!$thread->is_followed()) : ?>
   <a href="<?php to_html_entities(url('thread/follow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
 <?php else : ?>
   <a href="<?php to_html_entities(url('thread/unfollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 

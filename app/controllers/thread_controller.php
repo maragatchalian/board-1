@@ -47,7 +47,7 @@ class ThreadController extends AppController
         $this->set(get_defined_vars()); 
     }
 
-     public function view()
+    public function view()
     {
         $page = Param::get('page', 1);
 

@@ -20,28 +20,25 @@ class Thread extends AppModel
             throw new ValidationException('Invalid thread or comment');
         }
 
-        
-        
         try {
-                $db = DB::conn();
-                $date_created = date("Y-m-d H:i:s");
+            $db = DB::conn();
+            $date_created = date("Y-m-d H:i:s");
 
-                $db->begin();
-                $db->insert(
-                    'thread', array(
-                        'user_id'=>$_SESSION['user_id'],
-                        'title' => $this->title, 
-                        'created' => $date_created
-                        )
-                    );
-
-                $this->id = $db->lastInsertId();
-                //set the new thread id
-
-                $this->write($comment);
-                //write comment at the same time
+            $db->begin();
+            $db->insert(
+                'thread', array(
+                    'user_id'=>$_SESSION['user_id'],
+                    'title' => $this->title, 
+                    'created' => $date_created
+                    )
+                );
+            //set the new thread id
+            $this->id = $db->lastInsertId();
+           
+            //write comment at the same time
+            $this->write($comment);
             
-                $db->commit();
+            $db->commit();
 
         }catch (Exception $e) {
             $db->rollback();
@@ -86,22 +83,22 @@ class Thread extends AppModel
         }
 
         try {
-                $db = DB::conn();
-                $date_created = date("Y-m-d H:i:s");
+            $db = DB::conn();
+            $date_created = date("Y-m-d H:i:s");
 
-                $db->begin();
-                $db->insert(
-                    'comment', array(
-                        'thread_id' => $this->id, 
-                        'user_id' => $_SESSION['user_id'],
-                        'body' => $comment->body,
-                        'created' => $date_created
-                        )
-                    );
-                $db->commit();
+            $db->begin();
+            $db->insert(
+                'comment', array(
+                    'thread_id' => $this->id, 
+                    'user_id' => $_SESSION['user_id'],
+                    'body' => $comment->body,
+                    'created' => $date_created
+                    )
+                );
+            $db->commit();
                 
         }catch (Exception $e) {
-                $db->rollback();
+            $db->rollback();
         }
     }
 
@@ -117,7 +114,7 @@ class Thread extends AppModel
             $db->begin();
             $db->query('DELETE FROM thread WHERE id = ?', array($this->id));
             $db->commit();
-            } catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
 
@@ -126,12 +123,12 @@ class Thread extends AppModel
 
     public function follow()
     {
-         try {
+        try {
             $db = DB::conn();
             $db->begin();
             $db->insert('follow', array('thread_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
             $db->commit();
-            } catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
 
@@ -140,19 +137,19 @@ class Thread extends AppModel
 
     public function unfollow()
     {
-         try {
+        try {
             $db = DB::conn();
             $db->begin();
             $db->query('DELETE FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
             $db->commit();
-            } catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
 
         redirect(url('thread/view', array('thread_id' => $this->id)));   
     }
 
-    public function is_followed_thread()
+    public function is_followed()
     {
         $db = DB::conn();
         $followed_thread = $db->row('SELECT * FROM follow WHERE thread_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
@@ -189,5 +186,4 @@ class Thread extends AppModel
         
         echo $thread['title'];
     }
-
 }

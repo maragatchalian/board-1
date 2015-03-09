@@ -69,7 +69,6 @@ class User extends AppModel
             throw new ValidationException('Invalid user credentials');
         }
 
-        
         try {
             $db = DB::conn();
 
@@ -128,7 +127,7 @@ class User extends AppModel
         $db = DB::conn();
         $email_exist = $db->row("SELECT email FROM user WHERE email = ? && id != ?", array($this->email, $_SESSION['user_id']));
 
-             return !$email_exist;
+        return !$email_exist;
     }
 
     public static function get_username($user_id)
@@ -157,7 +156,6 @@ class User extends AppModel
             throw new ValidationException('Invalid user credentials');
         }
 
-        
         try {
             $db = DB::conn();
 
@@ -176,7 +174,5 @@ class User extends AppModel
             $db->rollback();
             throw $e;
         }
-
     }
-
 }

@@ -55,13 +55,13 @@ class Comment extends AppModel
   public function delete()
   {
       try {
-          $db = DB::conn();
+        $db = DB::conn();
 
-          $db->begin();
-          $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
-          $db->commit();
-          } catch (Exception $e) {
-          $db->rollback();
+        $db->begin();
+        $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
+        $db->commit();
+      } catch (Exception $e) {
+        $db->rollback();
       }
 
       redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
@@ -75,13 +75,13 @@ class Comment extends AppModel
   public function likes()
   {
     try {
-        $db = DB::conn();
+      $db = DB::conn();
 
-        $db->begin();
-        $db->insert('likes', array('comment_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
-        $db->commit();
-        } catch (Exception $e) {
-        $db->rollback();
+      $db->begin();
+      $db->insert('likes', array('comment_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
+      $db->commit();
+    } catch (Exception $e) {
+      $db->rollback();
     }
 
     redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
@@ -90,13 +90,13 @@ class Comment extends AppModel
   public function unlikes()
   {
     try {
-        $db = DB::conn();
+      $db = DB::conn();
 
-        $db->begin();
-        $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
-        $db->commit();
-        } catch (Exception $e) {
-        $db->rollback();
+      $db->begin();
+      $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
+      $db->commit();
+    } catch (Exception $e) {
+      $db->rollback();
     }
 
     redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
@@ -154,7 +154,6 @@ class Comment extends AppModel
 
     echo $comment_snippet;
   }
-
 }
 
 

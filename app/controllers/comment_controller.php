@@ -1,7 +1,7 @@
 <?php 
 Class CommentController extends AppController
 {
-     public function most_liked()
+    public function most_liked()
     {
         $comments = Comment::get_most_liked();
 
