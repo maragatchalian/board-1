@@ -1,4 +1,4 @@
-<h1>Register (free)</h1>
+<h1>Register</h1>
 
 <?php if ($user->hasError()) : ?>
     <div class="alert alert-block">

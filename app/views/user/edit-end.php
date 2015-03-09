@@ -1,0 +1,9 @@
+<h2>Hi! <?php to_html_entities($user->username) ?></h2>
+                        
+<p class="alert alert-success">
+    You have successfully updated your profile.
+</p>
+
+<a href="<?php to_html_entities(url('user/profile')) ?>">
+    Back to profile                    
+</a>

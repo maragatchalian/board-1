@@ -65,15 +65,14 @@ class User extends AppModel
 
     public function register()
     {
-        $this->validate();
-
-        if ($this->hasError()) {
+       if (!$this->validate()) {
             throw new ValidationException('Invalid user credentials');
         }
 
-        $db = DB::conn();
         
         try {
+            $db = DB::conn();
+
             $db->begin();
             $db->insert(
                 'user', array(
@@ -108,7 +107,7 @@ class User extends AppModel
         }
 
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] =$user['username'];
+        $_SESSION['username'] =$user['username'];       
     }
 
     public function is_password_match()
@@ -127,9 +126,9 @@ class User extends AppModel
     public function is_email_exist()
     {
         $db = DB::conn();
-        $username_exist = $db->row("SELECT email FROM user WHERE email = ?", array($this->email));
+        $email_exist = $db->row("SELECT email FROM user WHERE email = ? && id != ?", array($this->email, $_SESSION['user_id']));
 
-        return !$username_exist;
+             return !$email_exist;
     }
 
     public static function get_username($user_id)
@@ -150,6 +149,34 @@ class User extends AppModel
         }
 
         return new self($row);
+    }
+
+    public function update()
+    {
+         if (!$this->validate()) {
+            throw new ValidationException('Invalid user credentials');
+        }
+
+        
+        try {
+            $db = DB::conn();
+
+            $db->begin();
+            $db->update(
+                'user', array(
+                    'first_name' => $this->first_name,
+                    'last_name' => $this->last_name,
+                    'email' => strtolower($this->email)
+                   ),
+                array('id'=>$_SESSION['user_id'])   
+                );
+            $db->commit();
+
+        }catch(Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
+
     }
 
 }

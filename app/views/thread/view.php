@@ -1,7 +1,7 @@
 <h1><?php to_html_entities($thread->title) ?></h1>
 
 <div>
-  <?php $thread->countFollowers() ?> Following  
+  <?php $thread->countFollowers() ?> Followers  
 </div>
 
 <?php if (!$thread->is_followed_thread()) : ?>

@@ -56,6 +56,7 @@ class Comment extends AppModel
   {
       try {
           $db = DB::conn();
+
           $db->begin();
           $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
           $db->commit();
@@ -75,6 +76,7 @@ class Comment extends AppModel
   {
     try {
         $db = DB::conn();
+
         $db->begin();
         $db->insert('likes', array('comment_id' => $this->id , 'user_id' => $_SESSION['user_id'] ));
         $db->commit();
@@ -89,6 +91,7 @@ class Comment extends AppModel
   {
     try {
         $db = DB::conn();
+
         $db->begin();
         $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
         $db->commit();
@@ -102,6 +105,7 @@ class Comment extends AppModel
   public function is_comment_liked()
   {
     $db = DB::conn();
+    
     $comment_liked = $db->row('SELECT * FROM likes WHERE comment_id = ? && user_id = ?', array($this->id, $_SESSION['user_id']));
     
     return !$comment_liked;
@@ -110,6 +114,7 @@ class Comment extends AppModel
   public function countLikes()
   {
     $db = DB::conn();
+
     $total_likes = $db->value('SELECT COUNT(*) FROM likes WHERE comment_id =?', array($this->id));
 
     echo $total_likes;
@@ -119,6 +124,7 @@ class Comment extends AppModel
   {
     $comment = array();
     $db = DB::conn();
+
     $rows = $db->rows("SELECT id, comment_id, user_id, COUNT(comment_id) AS total_likes FROM likes 
         GROUP BY comment_id ORDER BY total_likes DESC LIMIT 10;");
 

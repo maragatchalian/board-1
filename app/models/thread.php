@@ -20,27 +20,28 @@ class Thread extends AppModel
             throw new ValidationException('Invalid thread or comment');
         }
 
-        $db = DB::conn();
         
-        $date_created = date("Y-m-d H:i:s");
         
         try {
-            $db->begin();
-            $db->insert(
-                'thread', array(
-                    'user_id'=>$_SESSION['user_id'],
-                    'title' => $this->title, 
-                    'created' => $date_created
-                    )
-                );
+                $db = DB::conn();
+                $date_created = date("Y-m-d H:i:s");
 
-            $this->id = $db->lastInsertId();
-            //set the new thread id
+                $db->begin();
+                $db->insert(
+                    'thread', array(
+                        'user_id'=>$_SESSION['user_id'],
+                        'title' => $this->title, 
+                        'created' => $date_created
+                        )
+                    );
 
-            $this->write($comment);
-            //write comment at the same time
-        
-            $db->commit();
+                $this->id = $db->lastInsertId();
+                //set the new thread id
+
+                $this->write($comment);
+                //write comment at the same time
+            
+                $db->commit();
 
         }catch (Exception $e) {
             $db->rollback();
@@ -84,24 +85,23 @@ class Thread extends AppModel
             throw new ValidationException('invalid comment');
         }
 
-        $db = DB::conn();
-
-        $date_created = date("Y-m-d H:i:s");
-        
         try {
-            $db->begin();
-            $db->insert(
-                'comment', array(
-                    'thread_id' => $this->id, 
-                    'user_id' => $_SESSION['user_id'],
-                    'body' => $comment->body,
-                    'created' => $date_created
-                    )
-                );
-            $db->commit();
-        
+                $db = DB::conn();
+                $date_created = date("Y-m-d H:i:s");
+
+                $db->begin();
+                $db->insert(
+                    'comment', array(
+                        'thread_id' => $this->id, 
+                        'user_id' => $_SESSION['user_id'],
+                        'body' => $comment->body,
+                        'created' => $date_created
+                        )
+                    );
+                $db->commit();
+                
         }catch (Exception $e) {
-            $db->rollback();
+                $db->rollback();
         }
     }
 
