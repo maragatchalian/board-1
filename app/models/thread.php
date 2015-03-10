@@ -3,9 +3,9 @@ class Thread extends AppModel
 {
     //Minimum Length Values
     const MIN_TITLE_LENGTH = 1;
-
     //Maximum Length Values
     const MAX_TITLE_LENGTH = 30;
+    const MAX_RANKING = 10;
 
     public $validation = array(
     'title' => array(
@@ -23,14 +23,12 @@ class Thread extends AppModel
         try {
             $db = DB::conn();
             $created = date("Y-m-d H:i:s");
-            
             $db->begin();
             $params = array(
-                        'user_id'=>$_SESSION['user_id'],
-                        'title' => $this->title, 
-                        'created' => $created
-                        );
-
+                'user_id'=>$_SESSION['user_id'],
+                'title' => $this->title, 
+                'created' => $created
+            );
             $db->insert('thread', $params);
             //set the new thread id
             $this->id = $db->lastInsertId();
@@ -46,33 +44,28 @@ class Thread extends AppModel
     {
         $threads = array();
         $db = DB::conn();
-        
         $rows = $db->rows("SELECT * FROM thread LIMIT {$offset}, {$limit}");
-
+        
         foreach ($rows as $row) {
             $threads[] = new self($row);
         }
-
         return $threads;
     }
 
     public static function countAll()
     {
         $db = DB::conn();
-        
         return (int) $db->value("SELECT COUNT(*) FROM thread");
     }
     
     public static function get($id)
     {
         $db = DB::conn();
-        
         $row = $db->row('SELECT * FROM thread WHERE id = ?', array($id));
-
+        
         if (!$row) {
             throw new RecordNotFoundException('no record found');
         }
-
         return new self($row);
     }
 
@@ -81,18 +74,16 @@ class Thread extends AppModel
         if(!$comment->validate()) {
             throw new ValidationException('invalid comment');
         }
-
         try {
             $db = DB::conn();
             $created = date("Y-m-d H:i:s");
-
             $db->begin();
             $params = array(
-                        'thread_id' => $this->id, 
-                        'user_id' => $_SESSION['user_id'],
-                        'body' => $comment->body,
-                        'created' => $created
-                        );
+                'thread_id' => $this->id, 
+                'user_id' => $_SESSION['user_id'],
+                'body' => $comment->body,
+                'created' => $created
+            );
             $db->insert('comment', $params);
             $db->commit();
                 
@@ -110,9 +101,12 @@ class Thread extends AppModel
     {
         try {
             $db = DB::conn();
-
             $db->begin();
-            $db->query('DELETE FROM thread WHERE id = ?', array($this->id));
+            $params = array(
+                $this->id,
+                $_SESSION['user_id']
+            );
+            $db->query('DELETE FROM thread WHERE id = ? && user_id = ?', $params);
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
@@ -124,13 +118,11 @@ class Thread extends AppModel
     {
         try {            
             $db = DB::conn();
-
             $db->begin();
             $params = array(
-                        'thread_id' => $this->id,
-                        'user_id' => $_SESSION['user_id'] 
-                        );
-
+                'thread_id' => $this->id,
+                'user_id' => $_SESSION['user_id'] 
+            );
             $db->insert('follow', $params);
             $db->commit();
         } catch (Exception $e) {
@@ -142,12 +134,11 @@ class Thread extends AppModel
     {
         try {
             $db = DB::conn();
-
             $db->begin();
             $params = array(
-                        $this->id, 
-                        $_SESSION['user_id']
-                        );
+                $this->id, 
+                $_SESSION['user_id']
+            );
             $db->query('DELETE FROM follow WHERE 
                         thread_id = ? && user_id = ?', $params);
             $db->commit();
@@ -159,23 +150,20 @@ class Thread extends AppModel
     public function isFollowed()
     {
         $db = DB::conn();
-
         $params = array(
-                    $this->id,
-                    $_SESSION['user_id']
-                    );
-        $followed_thread = $db->row('SELECT * FROM follow WHERE 
-                                    thread_id = ? && user_id = ?', $params);
-        
+            $this->id,
+            $_SESSION['user_id']
+        );
+        $followed_thread = $db->row('SELECT * FROM follow 
+                                    WHERE thread_id = ? && user_id = ?', $params);
         return $followed_thread;
     }
 
     public function countFollow()
     {
         $db = DB::conn();
-        $total_followers = $db->value('SELECT COUNT(*) FROM follow WHERE 
-                                        thread_id =?', array($this->id));
-
+        $total_followers = $db->value('SELECT COUNT(*) FROM follow 
+                                        WHERE thread_id =?', array($this->id));
         return $total_followers;
     }
 
@@ -183,15 +171,13 @@ class Thread extends AppModel
     {
         $threads = array();
         $db = DB::conn();
-
         $rows = $db->rows("SELECT thread_id, COUNT(thread_id) AS total_followers
                             FROM follow GROUP BY thread_id 
-                            ORDER BY total_followers DESC LIMIT 10;");
+                            ORDER BY total_followers DESC LIMIT ?", array(MAX_RANKING));
 
         foreach ($rows as $row) {
             $thread[] = new self($row);
         }
-
         return $thread;           
     }
     
@@ -200,7 +186,6 @@ class Thread extends AppModel
         $db = DB::conn();
         $thread = $db->row("SELECT title FROM thread WHERE 
                             id = ?", array($thread_id));
-        
         return $thread['title'];
     }
 }

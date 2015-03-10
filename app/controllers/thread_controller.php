@@ -7,7 +7,6 @@ class ThreadController extends AppController
     {
         $thread = new Thread();
         $comment = new Comment();
-        
         $page = Param::get('page_next', 'create');
 
         switch ($page) {
@@ -36,10 +35,7 @@ class ThreadController extends AppController
     {
         $page = Param::get('page', 1);
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE);
-
-        $threads = Thread::getAll($pagination->start_index -1, 
-                                    $pagination->count + 1);
-        
+        $threads = Thread::getAll($pagination->start_index -1, $pagination->count + 1);
         $pagination->checkLastPage($threads);
         $total = Thread::countAll();
         $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
@@ -48,16 +44,12 @@ class ThreadController extends AppController
 
     public function view()
     {
-        $page = Param::get('page', 1);
-        $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
-
         $thread_id = Param::get('thread_id');
         $_SESSION['thread_id'] = $thread_id;
-
         $thread = Thread::get($thread_id);
-        $comments = Comment::getAll($pagination->start_index -1, 
-                                    $pagination->count + 1, $thread_id);
-
+        $page = Param::get('page', 1);
+        $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
+        $comments = Comment::getAll($pagination->start_index -1, $pagination->count + 1, $thread_id);
         $pagination->checkLastPage($comments);
         $total = Comment::countAll($thread_id);
         $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
@@ -94,7 +86,6 @@ class ThreadController extends AppController
                 throw new NotFoundException("{$page} is not found");
                 break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);
     }
@@ -102,6 +93,10 @@ class ThreadController extends AppController
     public function delete()
     {
         $thread = Thread::get(Param::get('thread_id'));
+
+        if (!$thread_id) {
+            redirect(url('thread/index'));
+        }
         $thread->delete();
         redirect(url('thread/index'));
     }

@@ -24,7 +24,7 @@
 <?php foreach ($comments as $comment) : ?>
   <div class="comment">
     <div>
-        <img class="small-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
+        <img src="/bootstrap/img/avatar-milk.gif" alt="Defaut Avatar Image">
       </div>
 
       <div class="meta">

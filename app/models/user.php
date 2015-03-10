@@ -7,7 +7,6 @@ class User extends AppModel
     const MIN_LAST_NAME_LENGTH = 1;
     const MIN_EMAIL_LENGTH = 1;
     const MIN_PASSWORD_LENGTH = 8;
-
     //Maximum Length Values
     const MAX_USERNAME_LENGTH = 20;
     const MAX_FIRST_NAME_LENGTH = 254;
@@ -68,21 +67,19 @@ class User extends AppModel
        if (!$this->validate()) {
             throw new ValidationException('Invalid user credentials');
         }
-
         try {
             $db = DB::conn();
-
             $db->begin();
             $params = array(
-                        'username' => $this->username,
-                        'first_name' => $this->first_name,
-                        'last_name' => $this->last_name,
-                        'email' => strtolower($this->email),
-                        'password' => md5($this->password)
-                    );   
+                'username' => $this->username,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => strtolower($this->email),
+                'password' => md5($this->password)
+            );   
             $db->insert('user', $params); 
             $db->commit();
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             $db->rollback();
             throw $e;
         }
@@ -104,9 +101,8 @@ class User extends AppModel
             $this->is_validated = false; 
             throw new RecordNotFoundException('No Record Found');   
         }
-
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['first_name'] =$user['first_name'];       
+        $_SESSION['first_name'] = $user['first_name'];       
     }
 
     public function isPasswordMatch()
@@ -119,20 +115,18 @@ class User extends AppModel
         $db = DB::conn();
         $username_exist = $db->row("SELECT username FROM user WHERE 
                                     username = ?", array($this->username));
-
         return !$username_exist;
     }
 
     public function isEmailExist()
     {
         $db = DB::conn();
-        $params = array($this->email, 
-                        $_SESSION['user_id']
-                    );
-
+        $params = array(
+            $this->email, 
+            $_SESSION['user_id']
+        );
         $email_exist = $db->row("SELECT email FROM user WHERE
                                  email = ? && id != ?", $params);
-
         return !$email_exist;
     }
 
@@ -141,7 +135,6 @@ class User extends AppModel
         $db = DB::conn();
         $user = $db->row("SELECT username FROM user WHERE
                             id = ?", array($user_id));    
-
         return $user['username'];
     }
 
@@ -154,31 +147,27 @@ class User extends AppModel
         if (!$row) {
             throw new RecordNotFoundException('no record found');
         }
-
         return new self($row);
     }
 
     public function update()
     {
-         if (!$this->validate()) {
+        if (!$this->validate()) {
             throw new ValidationException('Invalid user credentials');
         }
-
         try {
             $db = DB::conn();
-
             $db->begin();
             $params = array(
-                        'first_name' => $this->first_name,
-                        'last_name' => $this->last_name,
-                        'email' => strtolower($this->email)
-                        );
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => strtolower($this->email)
+            );
             $db->update('user', $params,
-                        array('id'=>$_SESSION['user_id'])   
+                        array('id' => $_SESSION['user_id'])   
                     );
             $db->commit();
-
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             $db->rollback();
             throw $e;
         }

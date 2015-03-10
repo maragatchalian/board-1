@@ -7,16 +7,16 @@ class UserController extends AppController
             redirect(url('user/index'));
         }
         
-        $user = new User(array(
-                            'username' => Param::get('username'),
-                            'first_name' => Param::get('first_name'),
-                            'last_name' => Param::get('last_name'),
-                            'email' => Param::get('email'),
-                            'password' => Param::get('password'),
-                            'confirm_password' => Param::get('confirm_password')
-                            )
-                        );
+        $params = array(
+            'username' => Param::get('username'),
+            'first_name' => Param::get('first_name'),
+            'last_name' => Param::get('last_name'),
+            'email' => Param::get('email'),
+            'password' => Param::get('password'),
+            'confirm_password' => Param::get('confirm_password')    
+        );   
 
+        $user = new User($params);
         $page = Param::get('page_next', 'register');
  
         switch ($page){
@@ -112,7 +112,6 @@ class UserController extends AppController
                 throw new NotFoundException("{$page} is not found");
                 break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);   
     }

@@ -43,8 +43,8 @@
                   Top 10 Ranking <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="<?php to_html_entities(url('thread/most_followed')) ?>">Most Followed Threads</a></li>
-                  <li><a href="<?php to_html_entities(url('comment/most_liked')) ?>">Most Liked Comments</a></li>
+                  <li><a href="<?php to_html_entities(url('thread/mostFollowed')) ?>">Most Followed Threads</a></li>
+                  <li><a href="<?php to_html_entities(url('comment/mostLiked')) ?>">Most Liked Comments</a></li>
                 </ul>
               </li>              
               <li><a href="<?php to_html_entities(url('thread/create')) ?>">Create New Thread</a></li>
