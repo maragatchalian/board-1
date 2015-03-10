@@ -41,10 +41,8 @@ class ThreadController extends AppController
                                     $pagination->count + 1);
         
         $pagination->checkLastPage($threads);
-       
         $total = Thread::countAll();
         $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
-
         $this->set(get_defined_vars()); 
     }
 
@@ -61,10 +59,8 @@ class ThreadController extends AppController
                                     $pagination->count + 1, $thread_id);
 
         $pagination->checkLastPage($comments);
-       
         $total = Comment::countAll($thread_id);
         $num_pages = ceil($total / self::MAX_ITEMS_PER_PAGE);
-
         $this->set(get_defined_vars()); 
     }
 
@@ -107,7 +103,6 @@ class ThreadController extends AppController
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->delete();
-
         redirect(url('thread/index'));
     }
 
@@ -115,7 +110,6 @@ class ThreadController extends AppController
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->addFollow();
-
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
@@ -123,7 +117,6 @@ class ThreadController extends AppController
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->removeFollow();
-
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }
 }

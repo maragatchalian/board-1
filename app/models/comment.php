@@ -67,11 +67,8 @@ class Comment extends AppModel
       $db = DB::conn();
 
       $db->begin();
-      
       $db->query('DELETE FROM comment WHERE id = ?', array($this->id));
-      
       $db->commit();
-
     } catch (Exception $e) {
       $db->rollback();
     }
@@ -88,16 +85,12 @@ class Comment extends AppModel
       $db = DB::conn();
 
       $db->begin();
-
       $params = array(
                   'comment_id' => $this->id, 
                   'user_id' => $_SESSION['user_id'] 
                   );
-
       $db->insert('likes', $params);
-
       $db->commit();
-
     } catch (Exception $e) {
       $db->rollback();
     }   
@@ -109,15 +102,12 @@ class Comment extends AppModel
       $db = DB::conn();
 
       $db->begin();
-
       $params = array(
                   $this->id, 
                   $_SESSION['user_id']
                   );
-
       $db->query('DELETE FROM likes WHERE
                   comment_id = ? && user_id = ?', $params);
-      
       $db->commit();
 
     } catch (Exception $e) {
@@ -146,14 +136,13 @@ class Comment extends AppModel
 
     $total_likes = $db->value('SELECT COUNT(*) FROM likes WHERE 
                               comment_id =?', array($this->id));
-
+    
     return $total_likes;
   }
 
   public static function getMostLiked()
   {
     $comment = array();
-
     $db = DB::conn();
 
     $rows = $db->rows("SELECT id, comment_id, user_id, COUNT(comment_id) 

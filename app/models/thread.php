@@ -23,9 +23,8 @@ class Thread extends AppModel
         try {
             $db = DB::conn();
             $date_created = date("Y-m-d H:i:s");
-
-            $db->begin();
             
+            $db->begin();
             $params = array(
                         'user_id'=>$_SESSION['user_id'],
                         'title' => $this->title, 
@@ -92,16 +91,13 @@ class Thread extends AppModel
             $date_created = date("Y-m-d H:i:s");
 
             $db->begin();
-
             $params = array(
                         'thread_id' => $this->id, 
                         'user_id' => $_SESSION['user_id'],
                         'body' => $comment->body,
                         'created' => $date_created
                         );
-
             $db->insert('comment', $params);
-           
             $db->commit();
                 
         }catch (Exception $e) {
@@ -120,11 +116,8 @@ class Thread extends AppModel
             $db = DB::conn();
 
             $db->begin();
-
             $db->query('DELETE FROM thread WHERE id = ?', array($this->id));
-            
             $db->commit();
-
         } catch (Exception $e) {
             $db->rollback();
         }
@@ -137,7 +130,6 @@ class Thread extends AppModel
             $db = DB::conn();
 
             $db->begin();
-
             $params = array(
                         'thread_id' => $this->id,
                          'user_id' => $_SESSION['user_id'] 
@@ -145,7 +137,6 @@ class Thread extends AppModel
 
             $db->insert('follow', $params);
             $db->commit();
-
         }   catch (Exception $e) {
             $db->rollback();
         }
@@ -157,17 +148,13 @@ class Thread extends AppModel
             $db = DB::conn();
 
             $db->begin();
-
             $params = array(
                         $this->id, 
                         $_SESSION['user_id']
                         );
-
             $db->query('DELETE FROM follow WHERE 
                         thread_id = ? && user_id = ?', $params);
-            
             $db->commit();
-
         } catch (Exception $e) {
             $db->rollback();
         }
@@ -181,7 +168,6 @@ class Thread extends AppModel
                     $this->id,
                     $_SESSION['user_id']
                     );
-
         $followed_thread = $db->row('SELECT * FROM follow WHERE 
                                     thread_id = ? && user_id = ?', $params);
         

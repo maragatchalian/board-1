@@ -5,9 +5,7 @@
     <li>
         <a href="<?php to_html_entities(url('thread/view',
                 array('thread_id' => $comment->get_thread_id()))) ?>">
-
         <?php echo $comment->getCommentSnippet() ?>
-
         </a>
         <em><?php echo $comment->total_likes ?> Likes</em>
     </li>

@@ -1,4 +1,3 @@
-
 <h1><?php to_html_entities($thread->title) ?></h1>
 
 <div>

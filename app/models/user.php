@@ -73,7 +73,6 @@ class User extends AppModel
             $db = DB::conn();
 
             $db->begin();
-
             $params = array(
                         'username' => $this->username,
                         'first_name' => $this->first_name,
@@ -81,11 +80,8 @@ class User extends AppModel
                         'email' => strtolower($this->email),
                         'password' => md5($this->password)
                     );   
-           
             $db->insert('user', $params); 
-            
             $db->commit();
-
         }catch(Exception $e) {
             $db->rollback();
             throw $e;
@@ -95,12 +91,11 @@ class User extends AppModel
     public function login()
     {
         $db = DB::conn();
-
         $params = array(
             'username' => $this->username,
             'password' => md5($this->password) 
         );
-        
+
         $user = $db->row("SELECT id, first_name FROM user WHERE
                          BINARY username = :username &&  BINARY password = :password", 
                          $params);
@@ -122,7 +117,6 @@ class User extends AppModel
     public function isUsernameExist()
     {
         $db = DB::conn();
-
         $username_exist = $db->row("SELECT username FROM user WHERE 
                                     username = ?", array($this->username));
 
@@ -132,7 +126,6 @@ class User extends AppModel
     public function isEmailExist()
     {
         $db = DB::conn();
-
         $params = array($this->email, 
                         $_SESSION['user_id']
                     );
@@ -175,17 +168,14 @@ class User extends AppModel
             $db = DB::conn();
 
             $db->begin();
-
             $params = array(
                         'first_name' => $this->first_name,
                         'last_name' => $this->last_name,
                         'email' => strtolower($this->email)
                         );
-
             $db->update('user', $params,
                         array('id'=>$_SESSION['user_id'])   
                     );
-            
             $db->commit();
 
         }catch(Exception $e) {

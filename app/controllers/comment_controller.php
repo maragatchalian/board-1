@@ -11,7 +11,6 @@ Class CommentController extends AppController
     {
         $comment = Comment::get(Param::get('comment_id'));
         $comment->delete();
-
         redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
     }
 
@@ -19,7 +18,6 @@ Class CommentController extends AppController
     {
         $comment = Comment::get(Param::get('comment_id'));
         $comment->addLike();
-
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
@@ -27,7 +25,6 @@ Class CommentController extends AppController
     {
         $comment = Comment::get(Param::get('comment_id'));
         $comment->removeLike();
-
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }
 }
