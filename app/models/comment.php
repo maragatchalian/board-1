@@ -82,7 +82,7 @@ class Comment extends AppModel
     return $this->user_id === $_SESSION['user_id'];
   }
 
-  public function likes()
+  public function addLike()
   {
     try {
       $db = DB::conn();
@@ -103,7 +103,7 @@ class Comment extends AppModel
     }   
   }
 
-  public function unlikes()
+  public function removeLike()
   {
     try {
       $db = DB::conn();
@@ -140,7 +140,7 @@ class Comment extends AppModel
     return !$comment_liked;
   }
 
-  public function countLikes()
+  public function countLike()
   {
     $db = DB::conn();
 

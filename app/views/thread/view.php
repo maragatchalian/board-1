@@ -2,14 +2,14 @@
 <h1><?php to_html_entities($thread->title) ?></h1>
 
 <div>
-  <?php $thread->countFollowers() ?> Followers  
+  <?php echo $thread->countFollow() ?> Followers  
 </div>
 
 <!-- Follow Thread -->
 <?php if (!$thread->isFollowed()) : ?>
-  <a href="<?php to_html_entities(url('thread/follow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
+  <a href="<?php to_html_entities(url('thread/addfollow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
 <?php else : ?>
-  <a href="<?php to_html_entities(url('thread/unfollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 
+  <a href="<?php to_html_entities(url('thread/removefollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 
 <?php endif?> 
 
 <!-- Delete Thread -->
@@ -39,13 +39,13 @@
       <div>
         <!-- Like Comment -->
         <?php if ($comment->isCommentLiked()) : ?>
-          <a href="<?php to_html_entities(url('comment/likes', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> 
+          <a href="<?php to_html_entities(url('comment/addLike', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> 
         <?php else : ?>
-          <a href="<?php to_html_entities(url('comment/unlikes', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a>
+          <a href="<?php to_html_entities(url('comment/removeLike', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a>
         <?php endif ?>
         
         <!-- Count Likes -->
-        <?php echo $comment->countLikes() ?> Likes
+        <?php echo $comment->countLike() ?> Likes
         
         <!-- Delete Comment -->  
         <?php if ($comment->isUserComment()) : ?>

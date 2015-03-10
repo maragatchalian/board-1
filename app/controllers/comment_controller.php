@@ -15,18 +15,18 @@ Class CommentController extends AppController
         redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
     }
 
-    public function likes()
+    public function addLike()
     {
         $comment = Comment::get(Param::get('comment_id'));
-        $comment->likes();
+        $comment->addLike();
 
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
-    public function unlikes()
+    public function removeLike()
     {
         $comment = Comment::get(Param::get('comment_id'));
-        $comment->unlikes();
+        $comment->removeLike();
 
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }

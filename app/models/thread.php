@@ -131,7 +131,7 @@ class Thread extends AppModel
 
     }
 
-    public function follow()
+    public function addFollow()
     {
         try {
             $db = DB::conn();
@@ -151,7 +151,7 @@ class Thread extends AppModel
         }
     }
 
-    public function unfollow()
+    public function removeFollow()
     {
         try {
             $db = DB::conn();
@@ -188,7 +188,7 @@ class Thread extends AppModel
         return $followed_thread;
     }
 
-    public function countFollowers()
+    public function countFollow()
     {
         $db = DB::conn();
         $total_followers = $db->value('SELECT COUNT(*) FROM follow WHERE 

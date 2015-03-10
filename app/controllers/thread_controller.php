@@ -111,18 +111,18 @@ class ThreadController extends AppController
         redirect(url('thread/index'));
     }
 
-    public function follow()
+    public function addFollow()
     {
         $thread = Thread::get(Param::get('thread_id'));
-        $thread->follow();
+        $thread->addFollow();
 
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
-    public function unfollow()
+    public function removeFollow()
     {
         $thread = Thread::get(Param::get('thread_id'));
-        $thread->unfollow();
+        $thread->removeFollow();
 
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }
