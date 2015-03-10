@@ -146,7 +146,7 @@ class Thread extends AppModel
             $db->insert('follow', $params);
             $db->commit();
 
-        } catch (Exception $e) {
+        }   catch (Exception $e) {
             $db->rollback();
         }
     }

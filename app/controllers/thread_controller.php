@@ -39,7 +39,7 @@ class ThreadController extends AppController
 
         $threads = Thread::getAll($pagination->start_index -1, 
                                     $pagination->count + 1);
-
+        
         $pagination->checkLastPage($threads);
        
         $total = Thread::countAll();

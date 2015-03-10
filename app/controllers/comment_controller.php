@@ -4,7 +4,6 @@ Class CommentController extends AppController
     public function mostLiked()
     {
         $comments = Comment::get_most_liked();
-
         $this->set(get_defined_vars());
     }
 
