@@ -22,26 +22,22 @@ class Thread extends AppModel
 
         try {
             $db = DB::conn();
-            $date_created = date("Y-m-d H:i:s");
+            $created = date("Y-m-d H:i:s");
             
             $db->begin();
             $params = array(
                         'user_id'=>$_SESSION['user_id'],
                         'title' => $this->title, 
-                        'created' => $date_created
+                        'created' => $created
                         );
 
             $db->insert('thread', $params);
-
             //set the new thread id
             $this->id = $db->lastInsertId();
-           
             //write comment at the same time
             $this->write($comment);
-            
             $db->commit();
-
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
     }
@@ -88,19 +84,19 @@ class Thread extends AppModel
 
         try {
             $db = DB::conn();
-            $date_created = date("Y-m-d H:i:s");
+            $created = date("Y-m-d H:i:s");
 
             $db->begin();
             $params = array(
                         'thread_id' => $this->id, 
                         'user_id' => $_SESSION['user_id'],
                         'body' => $comment->body,
-                        'created' => $date_created
+                        'created' => $created
                         );
             $db->insert('comment', $params);
             $db->commit();
                 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
     }
@@ -126,18 +122,18 @@ class Thread extends AppModel
 
     public function addFollow()
     {
-        try {
+        try {            
             $db = DB::conn();
 
             $db->begin();
             $params = array(
                         'thread_id' => $this->id,
-                         'user_id' => $_SESSION['user_id'] 
-                         );
+                        'user_id' => $_SESSION['user_id'] 
+                        );
 
             $db->insert('follow', $params);
             $db->commit();
-        }   catch (Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
         }
     }

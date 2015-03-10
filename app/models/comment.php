@@ -103,9 +103,9 @@ class Comment extends AppModel
 
       $db->begin();
       $params = array(
-                  $this->id, 
-                  $_SESSION['user_id']
-                  );
+                    $this->id, 
+                    $_SESSION['user_id']);
+      
       $db->query('DELETE FROM likes WHERE
                   comment_id = ? && user_id = ?', $params);
       $db->commit();
