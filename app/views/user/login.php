@@ -1,4 +1,5 @@
 <h1>Login</h1>
+
 <?php if (!$user->is_validated) : ?>
     <div class="alert alert-block">
         <h4 class="alert-heading">Validation error!</h4>

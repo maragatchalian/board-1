@@ -1,5 +1,4 @@
 <?php
-
 function validate_between($check, $min, $max)            
 {
     $check = trim($check);

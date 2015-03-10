@@ -1,35 +1,35 @@
+
 <h1><?php to_html_entities($thread->title) ?></h1>
 
 <div>
   <?php $thread->countFollowers() ?> Followers  
 </div>
 
-<?php if (!$thread->is_followed()) : ?>
+<!-- Follow Thread -->
+<?php if (!$thread->isFollowed()) : ?>
   <a href="<?php to_html_entities(url('thread/follow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
 <?php else : ?>
   <a href="<?php to_html_entities(url('thread/unfollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 
-<?php endif // Follow Thread ?> 
+<?php endif?> 
 
-
-
-<?php if ($thread->is_user_thread()) : ?>
+<!-- Delete Thread -->
+<?php if ($thread->isUserThread()) : ?>
    | <a href="<?php to_html_entities(url('thread/delete', array('thread_id'=>$thread->id)))?>"
     onclick="return confirm('Are you sure you want to delete this thread?')"> 
       Delete this thread
     </a>
-<?php endif //Delete Thread ?>
+<?php endif ?>
  
 <br />
 
 <?php foreach ($comments as $comment) : ?>
   <div class="comment">
-    
-      <div>
+    <div>
         <img class="small-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
       </div>
 
       <div class="meta">
-          <h4><?php to_html_entities(User::get_username($comment->user_id)) ?></h4> 
+          <h4><?php to_html_entities(User::getUsername($comment->user_id)) ?></h4> 
 
           <?php to_html_entities($comment->created) ?>
       </div>
@@ -37,20 +37,23 @@
       <div><?php echo readable_text($comment->body) ?></div>
     
       <div>
-        <?php if ($comment->is_comment_liked()) : ?>
+        <!-- Like Comment -->
+        <?php if ($comment->isCommentLiked()) : ?>
           <a href="<?php to_html_entities(url('comment/likes', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> 
         <?php else : ?>
           <a href="<?php to_html_entities(url('comment/unlikes', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a>
-        <?php endif //Like Comment ?>
-
-        <?php $comment->countLikes() //Count Likes ?> Likes
-          
-        <?php if ($comment->is_user_comment()) : ?>
+        <?php endif ?>
+        
+        <!-- Count Likes -->
+        <?php echo $comment->countLikes() ?> Likes
+        
+        <!-- Delete Comment -->  
+        <?php if ($comment->isUserComment()) : ?>
           | <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
           onclick="return confirm('Are you sure you want to delete this comment?')"> 
             Delete this comment
           </a>
-        <?php endif //Delete Comment ?>
+        <?php endif ?>
       </div>
     </div>
 
@@ -59,7 +62,6 @@
 <?php endforeach ?>
 
 <!-- pagination -->
-
 <?php if($pagination->current > 1) : ?>
   <a href='?thread_id=<?php to_html_entities($thread->id) ?>&page=<?php echo $pagination->prev ?>'>Previous</a>
 <?php else: ?>

@@ -1,7 +1,7 @@
 <?php 
 Class CommentController extends AppController
 {
-    public function most_liked()
+    public function mostLiked()
     {
         $comments = Comment::get_most_liked();
 
@@ -12,6 +12,8 @@ Class CommentController extends AppController
     {
         $comment = Comment::get(Param::get('comment_id'));
         $comment->delete();
+
+        redirect(url('thread/view', array('thread_id' =>$_SESSION['thread_id'])));
     }
 
     public function likes()

@@ -6,32 +6,36 @@
 
        <h4 class="alert-heading">Validation error!</h4>
         
+        <!-- Check First Name Length -->
         <?php if (!empty($user->validation_errors['first_name']['length'])) : ?>            
              <div><em>Your First Name</em> must be between                
                 <?php to_html_entities($user->validation['first_name']['length'][1]) ?> and                    
                 <?php to_html_entities($user->validation['first_name']['length'][2]) ?> characters in length.
             </div>
-        <?php endif //Check First Name Length ?>
-
+        <?php endif ?>
+        
+        <!-- Check Last Name Length -->
         <?php if (!empty($user->validation_errors['last_name']['length'])) : ?>            
             <div><em>Your Last Name</em> must be between                
                 <?php to_html_entities($user->validation['last_name']['length'][1]) ?> and                    
                 <?php to_html_entities($user->validation['last_name']['length'][2]) ?> characters in length.
             </div>
-        <?php endif //Check Last Name Length ?>
-
+        <?php endif ?>
+        
+        <!-- Check Email Length -->
         <?php if (!empty($user->validation_errors['email']['length'])) : ?>            
             <div><em>Your Email</em> must be between                
                 <?php to_html_entities($user->validation['email']['length'][1]) ?> and                    
                 <?php to_html_entities($user->validation['email']['length'][2]) ?> characters in length.
             </div>
-        <?php endif //Check Email Length ?>
+        <?php endif ?>
 
+       <!-- Check If Email Exist -->
        <?php if (!empty($user->validation_errors['email']['exist'])) : ?>            
             <div>
                <em>Email is already registered</em>              
            </div>
-       <?php endif //Check if Email exist ?>
+       <?php endif ?>
     </div>
 <?php endif ?>
 

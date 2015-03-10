@@ -38,7 +38,9 @@ class ThreadController extends AppController
 
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE);
 
-        $threads = Thread::getAll($pagination->start_index -1, $pagination->count + 1);
+        $threads = Thread::getAll($pagination->start_index -1, 
+                                    $pagination->count + 1);
+
         $pagination->checkLastPage($threads);
        
         $total = Thread::countAll();
@@ -54,11 +56,12 @@ class ThreadController extends AppController
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
 
         $thread_id = Param::get('thread_id');
-        $thread = Thread::get($thread_id);
-
         $_SESSION['thread_id'] = $thread_id;
 
-        $comments = Comment::getAll($pagination->start_index -1, $pagination->count + 1, $thread_id);
+        $thread = Thread::get($thread_id);
+
+        $comments = Comment::getAll($pagination->start_index -1, 
+                                    $pagination->count + 1, $thread_id);
 
         $pagination->checkLastPage($comments);
        
@@ -68,9 +71,9 @@ class ThreadController extends AppController
         $this->set(get_defined_vars()); 
     }
 
-    public function most_followed()
+    public function mostFollowed()
     {
-        $threads = Thread::get_most_followed();
+        $threads = Thread::getMostFollowed();
 
         $this->set(get_defined_vars());
     }

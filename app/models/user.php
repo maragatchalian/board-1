@@ -73,15 +73,17 @@ class User extends AppModel
             $db = DB::conn();
 
             $db->begin();
-            $db->insert(
-                'user', array(
-                    'username' => $this->username,
-                    'first_name' => $this->first_name,
-                    'last_name' => $this->last_name,
-                    'email' => strtolower($this->email),
-                    'password' => md5($this->password)
-                    )   
-                );
+
+            $params = array(
+                        'username' => $this->username,
+                        'first_name' => $this->first_name,
+                        'last_name' => $this->last_name,
+                        'email' => strtolower($this->email),
+                        'password' => md5($this->password)
+                    );   
+           
+            $db->insert('user', $params); 
+            
             $db->commit();
 
         }catch(Exception $e) {
@@ -93,12 +95,15 @@ class User extends AppModel
     public function login()
     {
         $db = DB::conn();
+
         $params = array(
             'username' => $this->username,
             'password' => md5($this->password) 
         );
         
-        $user = $db->row("SELECT id, username FROM user WHERE BINARY username = :username &&  BINARY password = :password", $params);
+        $user = $db->row("SELECT id, first_name FROM user WHERE
+                         BINARY username = :username &&  BINARY password = :password", 
+                         $params);
         
         if (!$user) {
             $this->is_validated = false; 
@@ -106,42 +111,52 @@ class User extends AppModel
         }
 
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] =$user['username'];       
+        $_SESSION['first_name'] =$user['first_name'];       
     }
 
-    public function is_password_match()
+    public function isPasswordMatch()
     {
         return $this->password == $this->confirm_password;
     }
 
-    public function is_username_exist()
+    public function isUsernameExist()
     {
         $db = DB::conn();
-        $username_exist = $db->row("SELECT username FROM user WHERE username = ?", array($this->username));
+
+        $username_exist = $db->row("SELECT username FROM user WHERE 
+                                    username = ?", array($this->username));
 
         return !$username_exist;
     }
 
-    public function is_email_exist()
+    public function isEmailExist()
     {
         $db = DB::conn();
-        $email_exist = $db->row("SELECT email FROM user WHERE email = ? && id != ?", array($this->email, $_SESSION['user_id']));
+
+        $params = array($this->email, 
+                        $_SESSION['user_id']
+                    );
+
+        $email_exist = $db->row("SELECT email FROM user WHERE
+                                 email = ? && id != ?", $params);
 
         return !$email_exist;
     }
 
-    public static function get_username($user_id)
+    public static function getUsername($user_id)
     {
         $db = DB::conn();
-        $user = $db->row("SELECT username FROM user WHERE id = ?", array($user_id));    
+        $user = $db->row("SELECT username FROM user WHERE
+                            id = ?", array($user_id));    
 
-        echo $user['username'];
+        return $user['username'];
     }
 
     public static function get()
     {
         $db = DB::conn();
-        $row = $db->row("SELECT * FROM user WHERE id = ?", array($_SESSION['user_id']));    
+        $row = $db->row("SELECT * FROM user WHERE
+                        id = ?", array($_SESSION['user_id']));    
         
         if (!$row) {
             throw new RecordNotFoundException('no record found');
@@ -160,14 +175,17 @@ class User extends AppModel
             $db = DB::conn();
 
             $db->begin();
-            $db->update(
-                'user', array(
-                    'first_name' => $this->first_name,
-                    'last_name' => $this->last_name,
-                    'email' => strtolower($this->email)
-                   ),
-                array('id'=>$_SESSION['user_id'])   
-                );
+
+            $params = array(
+                        'first_name' => $this->first_name,
+                        'last_name' => $this->last_name,
+                        'email' => strtolower($this->email)
+                        );
+
+            $db->update('user', $params,
+                        array('id'=>$_SESSION['user_id'])   
+                    );
+            
             $db->commit();
 
         }catch(Exception $e) {
