@@ -100,9 +100,7 @@ class Comment extends AppModel
 
     } catch (Exception $e) {
       $db->rollback();
-    }
-
-    redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
+    }   
   }
 
   public function unlikes()
@@ -125,8 +123,6 @@ class Comment extends AppModel
     } catch (Exception $e) {
       $db->rollback();
     }
-
-    redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
   }
 
   public function isCommentLiked()

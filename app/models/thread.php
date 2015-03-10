@@ -129,7 +129,6 @@ class Thread extends AppModel
             $db->rollback();
         }
 
-        redirect(url('thread/index'));
     }
 
     public function follow()
@@ -150,8 +149,6 @@ class Thread extends AppModel
         } catch (Exception $e) {
             $db->rollback();
         }
-
-        redirect(url('thread/view', array('thread_id' => $this->id)));
     }
 
     public function unfollow()
@@ -174,8 +171,6 @@ class Thread extends AppModel
         } catch (Exception $e) {
             $db->rollback();
         }
-
-        redirect(url('thread/view', array('thread_id' => $this->id)));   
     }
 
     public function isFollowed()

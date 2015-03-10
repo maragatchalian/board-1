@@ -35,7 +35,6 @@ class ThreadController extends AppController
     public function index()
     {
         $page = Param::get('page', 1);
-
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE);
 
         $threads = Thread::getAll($pagination->start_index -1, 
@@ -52,14 +51,12 @@ class ThreadController extends AppController
     public function view()
     {
         $page = Param::get('page', 1);
-
         $pagination = new SimplePagination($page, self::MAX_ITEMS_PER_PAGE) ;
 
         $thread_id = Param::get('thread_id');
         $_SESSION['thread_id'] = $thread_id;
 
         $thread = Thread::get($thread_id);
-
         $comments = Comment::getAll($pagination->start_index -1, 
                                     $pagination->count + 1, $thread_id);
 
@@ -74,7 +71,6 @@ class ThreadController extends AppController
     public function mostFollowed()
     {
         $threads = Thread::getMostFollowed();
-
         $this->set(get_defined_vars());
     }
 
@@ -111,17 +107,23 @@ class ThreadController extends AppController
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->delete();
+
+        redirect(url('thread/index'));
     }
 
     public function follow()
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->follow();
+
+        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
     public function unfollow()
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->unfollow();
+
+        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }
 }
