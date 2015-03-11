@@ -94,7 +94,7 @@ class User extends AppModel
         );
 
         $user = $db->row("SELECT id, first_name FROM user 
-                        WHERE BINARY username = :username &&  BINARY password = :password", $params);
+                        WHERE BINARY username = :username AND  BINARY password = :password", $params);
         
         if (!$user) {
             $this->is_validated = false; 
@@ -125,7 +125,7 @@ class User extends AppModel
             $_SESSION['user_id']
         );
         $email_address_exist = $db->row("SELECT email_address FROM user 
-                                WHERE email_address = ? && id != ?", $params);
+                                WHERE email_address = ? AND id != ?", $params);
         return !$email_exist;
     }
 

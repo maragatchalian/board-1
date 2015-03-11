@@ -66,7 +66,7 @@ class Comment extends AppModel
           $this->id, 
           $_SESSION['user_id']
       );
-      $db->query('DELETE FROM comment WHERE id = ? && user_id = ?', $params );
+      $db->query('DELETE FROM comment WHERE id = ? AND user_id = ?', $params );
       $db->commit();
     } catch (Exception $e) {
       $db->rollback();
@@ -103,7 +103,7 @@ class Comment extends AppModel
           $this->id, 
           $_SESSION['user_id']
       );
-      $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', $params);
+      $db->query('DELETE FROM likes WHERE comment_id = ? AND user_id = ?', $params);
       $db->commit();
     } catch (Exception $e) {
       $db->rollback();
@@ -118,7 +118,7 @@ class Comment extends AppModel
       $_SESSION['user_id']
     );
     $comment_liked = $db->row('SELECT * FROM likes 
-                              WHERE comment_id = ? && user_id = ?', $params);
+                              WHERE comment_id = ? AND user_id = ?', $params);
     return !$comment_liked;
   }
 
