@@ -93,9 +93,8 @@ class User extends AppModel
             'password' => md5($this->password) 
         );
 
-        $user = $db->row("SELECT id, first_name FROM user WHERE
-                         BINARY username = :username &&  BINARY password = :password", 
-                         $params);
+        $user = $db->row("SELECT id, first_name FROM user 
+                        WHERE BINARY username = :username &&  BINARY password = :password", $params);
         
         if (!$user) {
             $this->is_validated = false; 
@@ -114,7 +113,7 @@ class User extends AppModel
     {
         $db = DB::conn();
         $username_exist = $db->row("SELECT username FROM user 
-                                    WHERE username = ?", array($this->username));
+                                WHERE username = ?", array($this->username));
         return !$username_exist;
     }
 
@@ -125,24 +124,24 @@ class User extends AppModel
             $this->email, 
             $_SESSION['user_id']
         );
-        $email_exist = $db->row("SELECT email FROM user WHERE
-                                 email = ? && id != ?", $params);
+        $email_exist = $db->row("SELECT email FROM user 
+                                WHERE email = ? && id != ?", $params);
         return !$email_exist;
     }
 
     public static function getUsername($user_id)
     {
         $db = DB::conn();
-        $user = $db->row("SELECT username FROM user WHERE
-                            id = ?", array($user_id));    
+        $user = $db->row("SELECT username FROM user 
+                    WHERE id = ?", array($user_id));    
         return $user['username'];
     }
 
     public static function get()
     {
         $db = DB::conn();
-        $row = $db->row("SELECT * FROM user WHERE
-                        id = ?", array($_SESSION['user_id']));    
+        $row = $db->row("SELECT * FROM user 
+                    WHERE id = ?", array($_SESSION['user_id']));    
         
         if (!$row) {
             throw new RecordNotFoundException('no record found');

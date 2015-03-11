@@ -28,8 +28,8 @@ class Comment extends AppModel
   public static function countAll($thread_id)
   {
     $db = DB::conn();
-    return (int) $db->value("SELECT COUNT(*) FROM comment WHERE 
-                                  thread_id = ? ", array($thread_id));
+    return (int) $db->value("SELECT COUNT(*) FROM comment 
+                          WHERE thread_id = ? ", array($thread_id));
   }
 
   public static function getAll($offset, $limit, $thread_id)
@@ -37,10 +37,9 @@ class Comment extends AppModel
     $comments = array();
     $db = DB::conn();
     $rows = $db->rows("SELECT * FROM comment 
-                        WHERE thread_id = ? 
-                        ORDER BY created ASC LIMIT {$offset}, {$limit}", 
-                        array($thread_id));
-  
+                      WHERE thread_id = ? 
+                      ORDER BY created ASC LIMIT {$offset}, {$limit}", array($thread_id));
+   
    foreach ($rows as $row) {
       $comments[] = new self($row);
     }
@@ -104,10 +103,8 @@ class Comment extends AppModel
           $this->id, 
           $_SESSION['user_id']
       );
-      $db->query('DELETE FROM likes WHERE
-                  comment_id = ? && user_id = ?', $params);
+      $db->query('DELETE FROM likes WHERE comment_id = ? && user_id = ?', $params);
       $db->commit();
-
     } catch (Exception $e) {
       $db->rollback();
     }
@@ -128,8 +125,8 @@ class Comment extends AppModel
   public function countLike()
   {
     $db = DB::conn();
-    $total_likes = $db->value('SELECT COUNT(*) FROM likes WHERE 
-                              comment_id =?', array($this->id));
+    $total_likes = $db->value('SELECT COUNT(*) FROM likes 
+                          WHERE comment_id =?', array($this->id));
     return $total_likes;
   }
 
@@ -151,16 +148,15 @@ class Comment extends AppModel
   public function getThreadId()
   {
     $db = DB::conn();
-    $thread_id = $db->row('SELECT thread_id FROM 
-                            comment WHERE id = ?', array($this->comment_id));
+    $thread_id = $db->row('SELECT thread_id FROM comment 
+                        WHERE id = ?', array($this->comment_id));
     return implode($thread_id);
   }
 
   public function getCommentSnippet()
   {
     $db = DB::conn();
-    $comment_body = $db->row('SELECT body FROM comment WHERE id = ?', 
-                              array($this->comment_id));
+    $comment_body = $db->row('SELECT body FROM comment WHERE id = ?', array($this->comment_id));
     $comment_snippet = substr(implode($comment_body), MIN_SNIPPET_LENGTH, MAX_SNIPPET_LENGTH) . "..." ;
     return $comment_snippet;
   }
