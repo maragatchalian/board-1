@@ -22,18 +22,18 @@
             </div>
         <?php endif ?>
         
-        <!-- Check Email Length -->
-        <?php if (!empty($user->validation_errors['email']['length'])) : ?>            
-            <div><em>Your Email</em> must be between                
-                <?php to_html_entities($user->validation['email']['length'][1]) ?> and                    
-                <?php to_html_entities($user->validation['email']['length'][2]) ?> characters in length.
+        <!-- Check Email Address Length -->
+        <?php if (!empty($user->validation_errors['email_address']['length'])) : ?>            
+            <div><em>Your Email Address</em> must be between                
+                <?php to_html_entities($user->validation['email_address']['length'][1]) ?> and                    
+                <?php to_html_entities($user->validation['email_address']['length'][2]) ?> characters in length.
             </div>
         <?php endif ?>
 
-       <!-- Check If Email Exist -->
-       <?php if (!empty($user->validation_errors['email']['exist'])) : ?>            
+       <!-- Check If Email Address Exist -->
+       <?php if (!empty($user->validation_errors['email_address']['exist'])) : ?>            
             <div>
-               <em>Email is already registered</em>              
+               <em>Email Address is already registered</em>              
            </div>
        <?php endif ?>
     </div>
@@ -55,8 +55,8 @@
     </div>
 
     <div class="span12">
-        <label for="first_name"><h4>Email</h4></label>
-        <input type="text" name="email" value="<?php to_html_entities(Param::get('email')) ?>">
+        <label for="email_address"><h4>Email</h4></label>
+        <input type="text" name="email_address" value="<?php to_html_entities(Param::get('email_address')) ?>">
     </div>
 
     <input type="hidden" name="page_next" value="edit_end">

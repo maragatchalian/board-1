@@ -11,7 +11,7 @@ class UserController extends AppController
             'username' => Param::get('username'),
             'first_name' => Param::get('first_name'),
             'last_name' => Param::get('last_name'),
-            'email' => Param::get('email'),
+            'email_address' => Param::get('email_address'),
             'password' => Param::get('password'),
             'confirm_password' => Param::get('confirm_password')    
         );   
@@ -89,7 +89,7 @@ class UserController extends AppController
         $params = array(
             'first_name' => Param::get('first_name'),
             'last_name' => Param::get('last_name'),
-            'email' => Param::get('email')
+            'email_address' => Param::get('email_address')
         );
 
         $user = new User($params);

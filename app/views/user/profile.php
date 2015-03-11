@@ -20,8 +20,8 @@
     </div>
 
     <div>
-        <b>Email: </b><?php echo $user->email ?>
-        <input type="hidden" name="email" value="<?php echo $user->email ?>">
+        <b>Email Address: </b><?php echo $user->email_address ?>
+        <input type="hidden" name="email_address" value="<?php echo $user->email ?>">
     </div>
 
     <br />

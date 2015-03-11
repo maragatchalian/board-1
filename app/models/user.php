@@ -5,13 +5,13 @@ class User extends AppModel
     const MIN_USERNAME_LENGTH = 1;
     const MIN_FIRST_NAME_LENGTH = 1;
     const MIN_LAST_NAME_LENGTH = 1;
-    const MIN_EMAIL_LENGTH = 1;
+    const MIN_EMAIL_ADDRESS_LENGTH = 1;
     const MIN_PASSWORD_LENGTH = 8;
     //Maximum Length Values
     const MAX_USERNAME_LENGTH = 20;
     const MAX_FIRST_NAME_LENGTH = 254;
     const MAX_LAST_NAME_LENGTH = 254;
-    const MAX_EMAIL_LENGTH = 254;
+    const MAX_EMAIL_ADDRESS_LENGTH = 254;
     const MAX_PASSWORD_LENGTH = 20;
 
     public $is_validated = true;
@@ -23,7 +23,7 @@ class User extends AppModel
             ),
 
             'exist' => array(
-                'is_username_exist',                         
+                'isUserNameExist',                         
             )
         ),
                 
@@ -39,13 +39,13 @@ class User extends AppModel
             )
         ),
 
-        'email' => array(
+        'email_address' => array(
             'length' => array(
-                'validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH,
+                'validate_between', self::MIN_EMAIL_ADDRESS_LENGTH, self::MAX_EMAIL_ADDRESS_LENGTH,
             ),
 
             'exist' => array(
-                'is_email_exist',                         
+                'isEmailAddressExist',                         
             )
         ),
 
@@ -57,7 +57,7 @@ class User extends AppModel
 
         'confirm_password' => array(
            'match' => array(
-                'is_password_match',                 
+                'isPasswordMatch',                 
             )
         ),
     );
@@ -74,7 +74,7 @@ class User extends AppModel
                 'username' => $this->username,
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
-                'email' => strtolower($this->email),
+                'email_address' => strtolower($this->email_address),
                 'password' => md5($this->password)
             );   
             $db->insert('user', $params); 
@@ -117,15 +117,15 @@ class User extends AppModel
         return !$username_exist;
     }
 
-    public function isEmailExist()
+    public function isEmailAddressExist()
     {
         $db = DB::conn();
         $params = array(
-            $this->email, 
+            $this->email_address, 
             $_SESSION['user_id']
         );
-        $email_exist = $db->row("SELECT email FROM user 
-                                WHERE email = ? && id != ?", $params);
+        $email_address_exist = $db->row("SELECT email_address FROM user 
+                                WHERE email_address = ? && id != ?", $params);
         return !$email_exist;
     }
 
@@ -160,7 +160,7 @@ class User extends AppModel
             $params = array(
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
-                'email' => strtolower($this->email)
+                'email_address' => strtolower($this->email_address)
             );
             $db->update('user', $params,
                         array('id' => $_SESSION['user_id'])   
