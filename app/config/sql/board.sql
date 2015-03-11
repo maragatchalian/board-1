@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS user (
      username VARCHAR(50) NOT NULL,
      first_name VARCHAR(50) NOT NULL,
      last_name VARCHAR(50) NOT NULL,
-     email VARCHAR(255) NOT NULL, 
+     email_address VARCHAR(255) NOT NULL, 
      password VARCHAR(50) NOT NULL,
      PRIMARY KEY (id)
 )ENGINE=InnoDB;
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS follow (
 CREATE TABLE IF NOT EXISTS avatar (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id INT(11) UNSIGNED NOT NULL,
-    image BLOB,
+    image TINYINT(4),
     PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
