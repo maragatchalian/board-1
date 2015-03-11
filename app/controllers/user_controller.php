@@ -25,7 +25,7 @@ class UserController extends AppController
             case 'register_end':
                 try{
                     $user->register();
-                }catch (ValidationException $e){
+                } catch (ValidationException $e){
                     $page = 'register';
                 }
                 break;  
@@ -59,7 +59,7 @@ class UserController extends AppController
                 try {
                     $user->login();
                     redirect(url('user/index'));
-                }catch (ValidationException $e) {
+                } catch (ValidationException $e) {
                     $page = 'login';
                 }
                 break;
@@ -101,7 +101,7 @@ class UserController extends AppController
             case 'edit_end':
                 try {
                     $user->update();
-                }catch (ValidationException $e) {
+                } catch (ValidationException $e) {
                     $page = 'edit';
                 }
                 break;

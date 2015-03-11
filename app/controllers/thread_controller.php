@@ -15,7 +15,6 @@ class ThreadController extends AppController
             case 'create_end':
                 $thread->title = Param::get('title');
                 $comment->body = Param::get('body');
-
                 try {
                     $thread->create($comment);
                 } catch (ValidationException $e) {
@@ -23,7 +22,7 @@ class ThreadController extends AppController
                 }
                 break;
             default:
-                throw new NotFoundException("{page} is not found");
+                throw new NotFoundException("{$page} is not found");
                 break;
         }
 
