@@ -5,7 +5,8 @@ class Thread extends AppModel
     const MIN_TITLE_LENGTH = 1;
     //Maximum Length Values
     const MAX_TITLE_LENGTH = 30;
-    const MAX_RANKING = 10;
+    const MAX_RANK = 10;
+
 
     public $validation = array(
     'title' => array(
@@ -150,8 +151,8 @@ class Thread extends AppModel
         $threads = array();
         $db = DB::conn();
         $rows = $db->rows("SELECT thread_id, COUNT(thread_id) AS total_followers
-                            FROM follow GROUP BY thread_id 
-                            ORDER BY total_followers DESC LIMIT ?", array(MAX_RANKING));
+                        FROM follow GROUP BY thread_id 
+                        ORDER BY total_followers DESC LIMIT " . self::MAX_RANK);
 
         foreach ($rows as $row) {
             $thread[] = new self($row);

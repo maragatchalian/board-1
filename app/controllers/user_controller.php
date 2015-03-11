@@ -84,6 +84,12 @@ class UserController extends AppController
         $this->set(get_defined_vars());
     }
 
+    public function profile()
+    {
+        $user = User::get();
+        $this->set(get_defined_vars());
+    }
+
     public function edit()
     {
         $params = array(
@@ -111,6 +117,12 @@ class UserController extends AppController
         }
         $this->set(get_defined_vars());
         $this->render($page);   
+    }
+    
+    public function mostFollowed()
+    {
+        $threads = Thread::getMostFollowed();
+        $this->set(get_defined_vars());
     }
 }
  

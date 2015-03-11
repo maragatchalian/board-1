@@ -41,7 +41,7 @@
 
 <form action="<?php to_html_entities(url('')) ?>" method="post"> 
     <div class="span12">
-        <img class="large-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
+        <img src="/bootstrap/img/avatar-milk.gif" alt="Milk">
     </div>
 
     <div class="span12">

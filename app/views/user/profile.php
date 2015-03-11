@@ -1,8 +1,6 @@
 <h1>Profile</h1>
 
-<div>
-    <img class="large-avatar" src="/bootstrap/img/default-avatar.png" alt="Defaut Avatar Image">
-</div>
+<img src="/bootstrap/img/avatar-milk.gif" alt="Milk">
 
 <form action="<?php to_html_entities(url('user/edit')) ?>" method="post">
     <div>

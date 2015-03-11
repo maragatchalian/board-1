@@ -9,7 +9,7 @@ class Comment extends AppModel
   const MAX_USERNAME_LENGTH = 20;
   const MAX_BODY_LENGTH = 200;
   const MAX_SNIPPET_LENGTH = 30;
-  const MAX_RANKING = 10;
+  const MAX_RANK = 10;
 
   public $validation = array(
      'username' => array(
@@ -137,7 +137,7 @@ class Comment extends AppModel
     $rows = $db->rows("SELECT id, comment_id, user_id, COUNT(comment_id) 
                         AS total_likes
                         FROM likes GROUP BY comment_id 
-                        ORDER BY total_likes DESC LIMIT ?", array(MAX_RANKING));
+                        ORDER BY total_likes DESC LIMIT ". self::MAX_RANK);
 
     foreach($rows as $row) {
       $comment[] = new self($row);
@@ -157,7 +157,7 @@ class Comment extends AppModel
   {
     $db = DB::conn();
     $comment_body = $db->row('SELECT body FROM comment WHERE id = ?', array($this->comment_id));
-    $comment_snippet = substr(implode($comment_body), MIN_SNIPPET_LENGTH, MAX_SNIPPET_LENGTH) . "..." ;
+    $comment_snippet = substr(implode($comment_body), self::MIN_SNIPPET_LENGTH, self::MAX_SNIPPET_LENGTH) . "..." ;
     return $comment_snippet;
   }
 
