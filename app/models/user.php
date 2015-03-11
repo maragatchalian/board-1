@@ -113,8 +113,8 @@ class User extends AppModel
     public function isUsernameExist()
     {
         $db = DB::conn();
-        $username_exist = $db->row("SELECT username FROM user WHERE 
-                                    username = ?", array($this->username));
+        $username_exist = $db->row("SELECT username FROM user 
+                                    WHERE username = ?", array($this->username));
         return !$username_exist;
     }
 

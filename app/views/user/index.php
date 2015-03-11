@@ -1,1 +1,1 @@
-<h2>Hi! <?php to_html_entities($_SESSION['first_name']) ?></h2>
+<h2>Hi! <?php echo $user->first_name ?></h2>

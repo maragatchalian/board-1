@@ -58,6 +58,7 @@ class UserController extends AppController
             case 'index':
                 try {
                     $user->login();
+                    redirect(url('user/index'));
                 }catch (ValidationException $e) {
                     $page = 'login';
                 }
@@ -78,10 +79,6 @@ class UserController extends AppController
     }
 
     public function index()
-    {
-    }
-
-    public function profile()
     {
         $user = User::get();
         $this->set(get_defined_vars());
