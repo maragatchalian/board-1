@@ -1,6 +1,6 @@
 --Create Database
 CREATE DATABASE IF NOT EXISTS board;
-GRANT SELECT, INSERT, UPDATE, DELETE ON forum.* TO board_root@localhost IDENTIFIED BY 'board_root';
+GRANT SELECT, INSERT, UPDATE, DELETE ON board.* TO board_root@localhost IDENTIFIED BY 'board_root';
 FLUSH PRIVILEGES;
 
 --Create Tables
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS follow (
 CREATE TABLE IF NOT EXISTS avatar (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id INT(11) UNSIGNED NOT NULL,
-    image TINYINT(4),
+    image_path TINYINT(4),
     PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
