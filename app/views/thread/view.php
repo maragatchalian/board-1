@@ -83,7 +83,7 @@
 
 <hr>
                     
-<form class="well" method="post" action="<?php to_html_entities(url('thread/write')) ?>">
+<form class="well" method="post" action="<?php to_html_entities(url('comment/write')) ?>">
   <label>Comment</label>
   <textarea name="body"><?php to_html_entities(Param::get('body')) ?></textarea>
   <br />

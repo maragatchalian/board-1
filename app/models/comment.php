@@ -160,6 +160,29 @@ class Comment extends AppModel
     $comment_snippet = substr(implode($comment_body), MIN_SNIPPET_LENGTH, MAX_SNIPPET_LENGTH) . "..." ;
     return $comment_snippet;
   }
+
+  public function write(Comment $comment, $thread_id)
+  {
+    if(!$comment->validate()) {
+          throw new ValidationException('invalid comment');
+    }
+    try {
+        $db = DB::conn();
+        $created = date("Y-m-d H:i:s");
+        $db->begin();
+        $params = array(
+            'thread_id' => $thread_id, 
+            'user_id' => $_SESSION['user_id'],
+            'body' => $comment->body,
+            'created' => $created
+        );
+        $db->insert('comment', $params);
+        $db->commit();
+            
+    } catch (Exception $e) {
+        $db->rollback();
+    }
+  }
 }
 
 

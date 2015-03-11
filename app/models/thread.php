@@ -33,7 +33,7 @@ class Thread extends AppModel
             //set the new thread id
             $this->id = $db->lastInsertId();
             //write comment at the same time
-            $this->write($comment);
+            $comment->write($comment, $this->id);
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
@@ -69,28 +69,6 @@ class Thread extends AppModel
         return new self($row);
     }
 
-    public function write(Comment $comment)
-    {
-        if(!$comment->validate()) {
-            throw new ValidationException('invalid comment');
-        }
-        try {
-            $db = DB::conn();
-            $created = date("Y-m-d H:i:s");
-            $db->begin();
-            $params = array(
-                'thread_id' => $this->id, 
-                'user_id' => $_SESSION['user_id'],
-                'body' => $comment->body,
-                'created' => $created
-            );
-            $db->insert('comment', $params);
-            $db->commit();
-                
-        } catch (Exception $e) {
-            $db->rollback();
-        }
-    }
 
     public function isUserThread()
     {
