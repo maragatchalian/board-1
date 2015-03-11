@@ -76,7 +76,7 @@ class Thread extends AppModel
         return $this->user_id === $_SESSION['user_id'];
     }
 
-    public function delete()
+    public function deleteThread()
     {
         try {
             $db = DB::conn();
@@ -85,12 +85,27 @@ class Thread extends AppModel
                 $this->id,
                 $_SESSION['user_id']
             );
-            $db->query('DELETE FROM thread WHERE id = ? && user_id = ?', $params);
+            $db->query('DELETE FROM thread WHERE id = ? AND user_id = ?', $params);
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
         }
+    }
 
+    public function deleteFollowedThread()
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $params = array(
+                $this->id,
+                $_SESSION['user_id']
+            );
+            $db->query('DELETE FROM follow WHERE thread_id = ? AND user_id = ?', $params);
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+        }
     }
 
     public function addFollow()
@@ -119,7 +134,7 @@ class Thread extends AppModel
                 $_SESSION['user_id']
             );
             $db->query('DELETE FROM follow WHERE 
-                        thread_id = ? && user_id = ?', $params);
+                        thread_id = ? AND user_id = ?', $params);
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
@@ -134,7 +149,7 @@ class Thread extends AppModel
             $_SESSION['user_id']
         );
         $followed_thread = $db->row('SELECT * FROM follow 
-                                    WHERE thread_id = ? && user_id = ?', $params);
+                                    WHERE thread_id = ? AND user_id = ?', $params);
         return $followed_thread;
     }
 

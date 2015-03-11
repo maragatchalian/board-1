@@ -10,7 +10,8 @@ Class CommentController extends AppController
     public function delete()
     {
         $comment = Comment::get(Param::get('comment_id'));
-        $comment->delete();
+        $comment->deleteComment();
+        $comment->deleteLikedComment();
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 

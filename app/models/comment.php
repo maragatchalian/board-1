@@ -57,7 +57,7 @@ class Comment extends AppModel
       return new self($row);
   }
 
-  public function delete()
+  public function deleteComment()
   {
     try {
       $db = DB::conn();
@@ -67,6 +67,22 @@ class Comment extends AppModel
           $_SESSION['user_id']
       );
       $db->query('DELETE FROM comment WHERE id = ? AND user_id = ?', $params );
+      $db->commit();
+    } catch (Exception $e) {
+      $db->rollback();
+    }
+  }
+
+  public function deleteLikedComment()
+  {
+    try {
+      $db = DB::conn();
+      $db->begin();
+      $params = array(
+          $this->id, 
+          $_SESSION['user_id']
+      );
+      $db->query('DELETE FROM likes WHERE comment_id = ? AND user_id = ?', $params );
       $db->commit();
     } catch (Exception $e) {
       $db->rollback();
