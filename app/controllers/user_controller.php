@@ -93,7 +93,6 @@ class UserController extends AppController
             'last_name' => Param::get('last_name'),
             'email_address' => Param::get('email_address')
         );
-
         $user = new User($params);
         $page = Param::get('page_next', 'edit');
  
@@ -121,8 +120,19 @@ class UserController extends AppController
         $this->set(get_defined_vars());
     }
 
-    public function chooseAvatar()
+    public function avatar()
     {
+        $user = User::get();
+        $this->set(get_defined_vars());
     }
+
+    public function setAvatar()
+    {
+        $user = User::get();
+        $this->set(get_defined_vars());
+        $user->setAvatar(Param::get('image_path'));
+        $this->render('user/setAvatar_end');
+    }
+
 }
  

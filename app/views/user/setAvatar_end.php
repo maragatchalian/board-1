@@ -1,9 +1,12 @@
-<h2>Edit Profile</h2>
-                        
+<h2>Avatar Changed</h2>
+
 <p class="alert alert-success">
-    You have successfully updated your profile.
+    You have successfully changed your avatar!
 </p>
 
 <a href="<?php to_html_entities(url('user/profile')) ?>">
     &larr;  Back to profile                    
 </a>
+
+
+                        

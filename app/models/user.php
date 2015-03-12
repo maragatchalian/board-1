@@ -78,8 +78,23 @@ class User extends AppModel
                 'password' => md5($this->password)
             );   
             $db->insert('user', $params); 
+            $this->id = $db->lastInsertId();
+            $this->addAvatar($this->id);
             $db->commit();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
+    }
+
+    public function addAvatar($user_id)
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->insert('avatar', array('user_id' => $user_id, 'image_path' => 1 ));
+            $db->commit();
+        } catch (Exception $e) {
             $db->rollback();
             throw $e;
         }
@@ -120,12 +135,8 @@ class User extends AppModel
     public function isEmailAddressExist()
     {
         $db = DB::conn();
-        $params = array(
-            $this->email_address, 
-            $_SESSION['user_id']
-        );
         $email_address_exist = $db->row("SELECT email_address FROM user 
-                                WHERE email_address = ? AND id != ?", $params);
+                                    WHERE email_address = ?", array($this->email_address));
         return !$email_address_exist;
     }
 
@@ -164,7 +175,7 @@ class User extends AppModel
             );
             $db->update('user', $params, array('id' => $_SESSION['user_id']));
             $db->commit();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $db->rollback();
             throw $e;
         }
@@ -208,5 +219,18 @@ class User extends AppModel
                 break; 
             }
         return $image_path;
+    }
+
+    public function setAvatar($image_path)
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->update('avatar', array('image_path' => $image_path), array('user_id' => $this->id));
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
     }
 }

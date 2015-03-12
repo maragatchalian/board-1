@@ -43,7 +43,7 @@
     <div class="span12">
         <img src="<?php echo $user->getImagePath($_SESSION['user_id']) ?>" alt="User Avatar"> 
         <br />
-         <a href ="<?php to_html_entities(url('user/chooseAvatar')) ?>">Choose Avatar</a>
+         <a href ="<?php to_html_entities(url('user/avatar')) ?>">Change Avatar</a>
     </div>
 
     <div class="span12">
