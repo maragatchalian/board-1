@@ -1,6 +1,6 @@
 <h1>Profile</h1>
 
-<img src="/bootstrap/img/avatar-milk.gif" alt="Milk">
+<img src="<?php echo $user->getImagePath($user->id) ?>" alt="User Avatar">
 
 <form action="<?php to_html_entities(url('user/edit')) ?>" method="post">
     <div>
@@ -19,7 +19,7 @@
 
     <div>
         <b>Email Address: </b><?php echo $user->email_address ?>
-        <input type="hidden" name="email_address" value="<?php echo $user->email ?>">
+        <input type="hidden" name="email_address" value="<?php echo $user->email_address ?>">
     </div>
 
     <br />

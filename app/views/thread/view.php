@@ -24,8 +24,8 @@
 <?php foreach ($comments as $comment) : ?>
   <div class="comment">
     <div>
-        <img src="/bootstrap/img/avatar-milk.gif" alt="Milk">
-      </div>
+        <img src="<?php echo User::getImagePath($comment->user_id) ?>" alt="User Avatar">
+    </div>
 
       <div class="meta">
           <h4><?php to_html_entities(User::getUsername($comment->user_id)) ?></h4> 

@@ -33,7 +33,6 @@ class UserController extends AppController
                 throw new NotFoundException("{$page} is not found");
                 break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);
     }
@@ -43,12 +42,10 @@ class UserController extends AppController
         if (is_logged_in()) {
             redirect(url('user/index'));
         }
-
         $params = array(
             'username' => Param::get('username'),
             'password' => Param::get('password'),
         );
-
         $user = new User($params);
         $page = Param::get('page_next', 'login');
  
@@ -67,7 +64,6 @@ class UserController extends AppController
                 throw new NotFoundException("{$page} is not found");
                 break;
         }
-
         $this->set(get_defined_vars());
         $this->render($page);   
     }
@@ -106,7 +102,7 @@ class UserController extends AppController
                 break;
             case 'edit_end':
                 try {
-                    $user->update();
+                    $user->updateProfile();
                 } catch (ValidationException $e) {
                     $page = 'edit';
                 }
@@ -123,6 +119,10 @@ class UserController extends AppController
     {
         $threads = Thread::getMostFollowed();
         $this->set(get_defined_vars());
+    }
+
+    public function chooseAvatar()
+    {
     }
 }
  

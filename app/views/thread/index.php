@@ -3,8 +3,7 @@
 <ul>
   <?php foreach ($threads as $thread) : ?>
     <li>
-      <a href="<?php to_html_entities(url('thread/view',
-           array('thread_id' => $thread->id))) ?>">
+      <a href="<?php to_html_entities(url('thread/view',array('thread_id' => $thread->id))) ?>">
         <?php echo $thread->title ?>
       </a>
     </li>

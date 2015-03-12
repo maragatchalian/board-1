@@ -126,7 +126,7 @@ class User extends AppModel
         );
         $email_address_exist = $db->row("SELECT email_address FROM user 
                                 WHERE email_address = ? AND id != ?", $params);
-        return !$email_exist;
+        return !$email_address_exist;
     }
 
     public static function getUsername($user_id)
@@ -149,7 +149,7 @@ class User extends AppModel
         return new self($row);
     }
 
-    public function update()
+    public function updateProfile()
     {
         if (!$this->validate()) {
             throw new ValidationException('Invalid user credentials');
@@ -162,13 +162,51 @@ class User extends AppModel
                 'last_name' => $this->last_name,
                 'email_address' => strtolower($this->email_address)
             );
-            $db->update('user', $params,
-                        array('id' => $_SESSION['user_id'])   
-                    );
+            $db->update('user', $params, array('id' => $_SESSION['user_id']));
             $db->commit();
         } catch(Exception $e) {
             $db->rollback();
             throw $e;
         }
+    }
+
+    public static function getImagePath($user_id)
+    {
+        $db = DB::conn();
+        $row = $db->row('SELECT image_path FROM avatar WHERE user_id = ?', array($user_id));
+
+        switch ($row['image_path']) {
+            case 1:
+                $image_path = "/bootstrap/img/avatar-milk.gif";
+                break;
+            case 2:
+                $image_path = "/bootstrap/img/avatar-french-fries.gif";
+                break;
+            case 3:
+                $image_path = "/bootstrap/img/avatar-ghost.gif";
+                break;
+            case 4:
+                $image_path = "/bootstrap/img/avatar-strawberry.gif";
+                break;
+            case 5:
+                $image_path = "/bootstrap/img/avatar-sushi.gif";
+                break;
+            case 6:
+                $image_path = "/bootstrap/img/avatar-finn.gif";
+                break;
+            case 7:
+                $image_path = "/bootstrap/img/avatar-flame-princess.gif";
+                break;
+            case 8:
+                $image_path = "/bootstrap/img/avatar-lee.gif";
+                break;
+            case 9:
+                $image_path = "/bootstrap/img/avatar-pb.gif";
+                break;                
+            default:
+                throw new NotFoundException("{$image_path} is not found");
+                break; 
+            }
+        return $image_path;
     }
 }

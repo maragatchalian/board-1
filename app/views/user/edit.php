@@ -41,7 +41,9 @@
 
 <form action="<?php to_html_entities(url('')) ?>" method="post"> 
     <div class="span12">
-        <img src="/bootstrap/img/avatar-milk.gif" alt="Milk">
+        <img src="<?php echo $user->getImagePath($_SESSION['user_id']) ?>" alt="User Avatar"> 
+        <br />
+         <a href ="<?php to_html_entities(url('user/chooseAvatar')) ?>">Choose Avatar</a>
     </div>
 
     <div class="span12">
@@ -58,12 +60,11 @@
         <label for="email_address"><h4>Email</h4></label>
         <input type="text" name="email_address" value="<?php to_html_entities(Param::get('email_address')) ?>">
     </div>
-
+    
     <input type="hidden" name="page_next" value="edit_end">
     
     <div class="span12">
         <br />
-
         <button class="btn btn-info btn-large" type="submit">Save</button>
         <a href="<?php to_html_entities(url('user/profile')) ?>" class="btn btn-large">Cancel</a>
     </div>
