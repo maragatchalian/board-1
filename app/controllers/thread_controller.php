@@ -65,7 +65,6 @@ class ThreadController extends AppController
     {
         $thread = Thread::get(Param::get('thread_id'));
         $thread->deleteThread();
-        $thread->deleteFollowedThread();
         redirect(url('thread/index'));
     }
 

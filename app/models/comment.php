@@ -67,6 +67,7 @@ class Comment extends AppModel
           $_SESSION['user_id']
       );
       $db->query('DELETE FROM comment WHERE id = ? AND user_id = ?', $params );
+      $this->deleteLikedComment();
       $db->commit();
     } catch (Exception $e) {
       $db->rollback();

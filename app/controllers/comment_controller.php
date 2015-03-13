@@ -11,7 +11,6 @@ Class CommentController extends AppController
     {
         $comment = Comment::get(Param::get('comment_id'));
         $comment->deleteComment();
-        $comment->deleteLikedComment();
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 

@@ -89,5 +89,5 @@
   <br />
   <input type="hidden" name="thread_id" value="<?php to_html_entities($thread->id) ?>">
   <input type="hidden" name="page_next" value="write_end">
-  <button type="submit" class="btn btn-info">Submit</button>
+  <button type="submit" class="btn btn-info ">Submit</button>
 </form>

@@ -86,6 +86,7 @@ class Thread extends AppModel
                 $_SESSION['user_id']
             );
             $db->query('DELETE FROM thread WHERE id = ? AND user_id = ?', $params);
+            $this->deleteFollowedThread();
             $db->commit();
         } catch (Exception $e) {
             $db->rollback();
