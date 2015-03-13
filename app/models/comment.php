@@ -6,7 +6,7 @@ class Comment extends AppModel
   const MIN_BODY_LENGTH = 1;
   const MIN_SNIPPET_LENGTH =1;
   //Maximum Length Values
-  const MAX_USERNAME_LENGTH = 20;
+  const MAX_USERNAME_LENGTH = 50;
   const MAX_BODY_LENGTH = 200;
   const MAX_SNIPPET_LENGTH = 30;
   const MAX_RANK = 10;

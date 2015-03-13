@@ -9,10 +9,10 @@ class User extends AppModel
     const MIN_PASSWORD_LENGTH = 8;
     //Maximum Length Values
     const MAX_USERNAME_LENGTH = 20;
-    const MAX_FIRST_NAME_LENGTH = 254;
-    const MAX_LAST_NAME_LENGTH = 254;
-    const MAX_EMAIL_ADDRESS_LENGTH = 254;
-    const MAX_PASSWORD_LENGTH = 20;
+    const MAX_FIRST_NAME_LENGTH = 50;
+    const MAX_LAST_NAME_LENGTH = 50;
+    const MAX_EMAIL_ADDRESS_LENGTH = 255;
+    const MAX_PASSWORD_LENGTH = 50;
 
     public $is_validated = true;
 

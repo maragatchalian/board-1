@@ -4,7 +4,7 @@ class Thread extends AppModel
     //Minimum Length Values
     const MIN_TITLE_LENGTH = 1;
     //Maximum Length Values
-    const MAX_TITLE_LENGTH = 30;
+    const MAX_TITLE_LENGTH = 50;
     const MAX_RANK = 10;
 
 
@@ -65,7 +65,7 @@ class Thread extends AppModel
         $row = $db->row('SELECT * FROM thread WHERE id = ?', array($id));
         
         if (!$row) {
-            throw new RecordNotFoundException('no record found');
+            throw new RecordNotFoundException('no record found');   `
         }
         return new self($row);
     }
