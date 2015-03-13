@@ -15,18 +15,23 @@ Class CommentController extends AppController
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
     }
 
-    public function addLike()
+    public function setLike()
     {
         $comment = Comment::get(Param::get('comment_id'));
-        $comment->addLike();
-        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
-    }
+        $method = Param::get('method');
 
-    public function removeLike()
-    {
-        $comment = Comment::get(Param::get('comment_id'));
-        $comment->removeLike();
-        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
+        switch ($method) {
+            case 'add':
+                $comment->addLike();
+                break;
+            case 'remove':
+                $comment->removeLike();
+                break;
+            default:
+                throw new InvalidArgumentException("{$method} is an invalid parameter");
+                break;
+        }
+        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));  
     }
 
      public function write()

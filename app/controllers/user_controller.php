@@ -127,7 +127,7 @@ class UserController extends AppController
     }
 
     public function setAvatar()
-    {
+    {   
         $user = User::get();
         $this->set(get_defined_vars());
         $user->setAvatar(Param::get('image_path'));

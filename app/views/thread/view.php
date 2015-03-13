@@ -38,9 +38,9 @@
       <div>
         <!-- Like Comment -->
         <?php if ($comment->isCommentLiked()) : ?>
-          <a href="<?php to_html_entities(url('comment/addLike', array('comment_id'=>$comment->id)))?>"><i class="icon-heart"></i></a> 
+          <a href="<?php to_html_entities(url('comment/setLike', array('comment_id' => $comment->id, 'method' => 'add')))?>"><i class="icon-heart"></i></a> 
         <?php else : ?>
-          <a href="<?php to_html_entities(url('comment/removeLike', array('comment_id'=>$comment->id)))?>" class="red"><i class="icon-heart icon-red"></i></a>
+          <a href="<?php to_html_entities(url('comment/setLike', array('comment_id' => $comment->id, 'method' => 'remove')))?>" class="red"><i class="icon-heart icon-red"></i></a>
         <?php endif ?>
         
         <!-- Count Likes -->
@@ -48,7 +48,7 @@
         
         <!-- Delete Comment -->  
         <?php if ($comment->isUserComment()) : ?>
-          | <a href="<?php to_html_entities(url('comment/delete', array('comment_id'=>$comment->id)))?>"
+          | <a href="<?php to_html_entities(url('comment/delete', array('comment_id' => $comment->id)))?>"
           onclick="return confirm('Are you sure you want to delete this comment?')"> 
             Delete this comment
           </a>
