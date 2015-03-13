@@ -135,8 +135,20 @@ class User extends AppModel
     public function isEmailAddressExist()
     {
         $db = DB::conn();
+        $user_id ='';
+
+        if (isset($_SESSION['user_id'])) {
+            $user_id = $_SESSION['user_id'];
+        }
+
+        $params = array(
+            'email_address' => $this->email_address,
+            'id' => $user_id
+        );
         $email_address_exist = $db->row("SELECT email_address FROM user 
-                                    WHERE email_address = ?", array($this->email_address));
+                                WHERE email_address = :email_address
+                                AND email_address = :email_address
+                                AND id != :id", $params);
         return !$email_address_exist;
     }
 
