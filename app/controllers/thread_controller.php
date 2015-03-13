@@ -64,8 +64,9 @@ class ThreadController extends AppController
     public function delete()
     {
         $thread = Thread::get(Param::get('thread_id'));
+        $thread->set(get_defined_vars());
         $thread->deleteThread();
-        redirect(url('thread/index'));
+        $this->render('thread/delete');
     }
 
     public function setFollow()
