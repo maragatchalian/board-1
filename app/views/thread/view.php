@@ -6,9 +6,9 @@
 
 <!-- Follow Thread -->
 <?php if (!$thread->isFollowed()) : ?>
-  <a href="<?php to_html_entities(url('thread/addfollow', array('thread_id'=>$thread->id)))?>">Follow this thread</a> 
+  <a href="<?php to_html_entities(url('thread/setFollow', array('thread_id' => $thread->id, 'method' => 'add')))?>">Follow this thread</a> 
 <?php else : ?>
-  <a href="<?php to_html_entities(url('thread/removefollow', array('thread_id'=>$thread->id)))?>">Unfollow this thread</a> 
+  <a href="<?php to_html_entities(url('thread/setFollow', array('thread_id' => $thread->id, 'method' => 'remove')))?>">Unfollow this thread</a> 
 <?php endif?> 
 
 <!-- Delete Thread -->

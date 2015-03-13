@@ -69,17 +69,22 @@ class ThreadController extends AppController
         redirect(url('thread/index'));
     }
 
-    public function addFollow()
+    public function setFollow()
     {
         $thread = Thread::get(Param::get('thread_id'));
-        $thread->addFollow();
-        redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));
-    }
+        $method = Param::get('method');
 
-    public function removeFollow()
-    {
-        $thread = Thread::get(Param::get('thread_id'));
-        $thread->removeFollow();
+        switch ($method) {
+            case 'add':
+                $thread->addFollow();
+                break;
+            case 'remove':
+                $thread->removeFollow();
+                break;
+            default:
+                throw new InvalidArgumentException("{$method} is an invalid parameter");
+                break;
+        }
         redirect(url('thread/view', array('thread_id' => $_SESSION['thread_id'])));   
     }
 }
