@@ -1,12 +1,13 @@
-.large-avatar{
-    margin:10px;
-    height:100px;
-    width:100px;
+.section
+{
+    padding:5px;
+    font-size:15px;
+    background:#999;
+    border-radius:8px;
 }
 
-.small-avatar{
-    margin:10px;
-    height:80px;
-    width:80px;
+.section a
+{
+    color:#fff;
+    font-weight:bold;
 }
-

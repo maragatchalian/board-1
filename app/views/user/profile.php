@@ -25,7 +25,7 @@
     <br />
 
     <div>
-        <button class="btn btn-info btn-large" type="submit">Edit Profile</button>
+        <button class="btn btn-info" type="submit">Edit Profile</button>
     </div>
 </form>
 

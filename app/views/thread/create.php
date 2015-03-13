@@ -37,5 +37,5 @@
   <textarea name="body"><?php to_html_entities(Param::get('body')) ?></textarea>
   <br />
   <input type="hidden" name="page_next" value="create_end">
-  <button type="submit" class="btn btn-primary">Submit</button>                
+  <button type="submit" class="btn btn-info">Submit</button>                
 </form> 

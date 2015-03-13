@@ -107,7 +107,7 @@
     <input type="hidden" name="page_next" value="register_end">
 
     <div class="span12">
-        <button class="btn btn-info btn-large" type="submit">Register me</button>
+        <button class="btn btn-info" type="submit">Register me</button>
         
         <br />
         <br />

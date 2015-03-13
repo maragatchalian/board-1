@@ -65,7 +65,7 @@
     
     <div class="span12">
         <br />
-        <button class="btn btn-info btn-large" type="submit">Save</button>
-        <a href="<?php to_html_entities(url('user/profile')) ?>" class="btn btn-large">Cancel</a>
+        <button class="btn btn-info" type="submit">Save</button>
+        <a href="<?php to_html_entities(url('user/profile')) ?>" class="btn">Cancel</a>
     </div>
 </form>
