@@ -1,4 +1,5 @@
 <h1>Login</h1>
+
 <?php if (!$user->is_validated) : ?>
     <div class="alert alert-block">
         <h4 class="alert-heading">Validation error!</h4>
@@ -23,7 +24,7 @@
     <input type="hidden" name="page_next" value="index">
 
     <div class="span12">
-        <button class="btn btn-info btn-large" type="submit">Login</button>
+        <button class="btn btn-info" type="submit">Login</button>
         
         <br />
         <br />

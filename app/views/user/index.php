@@ -1,1 +1,4 @@
-<h2>Hi! <?php to_html_entities($_SESSION['username']) ?></h2>
+<h2>Hi! <?php echo $user->first_name ?></h2>
+
+<img src="<?php echo $user->getImagePath($user->id) ?>" alt="User Avatar">
+

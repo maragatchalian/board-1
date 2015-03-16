@@ -1,5 +1,4 @@
 <?php
-
 function to_html_entities($string)
 {
     if (!isset($string)) return;

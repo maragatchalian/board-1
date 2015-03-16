@@ -5,5 +5,5 @@
 </p>
                         
 <a href="<?php to_html_entities(url('thread/view', array('thread_id' => $thread->id))) ?>">
-  &larr; Go to thread                    
+    &larr; Go to thread                    
 </a>

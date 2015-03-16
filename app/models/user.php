@@ -5,15 +5,14 @@ class User extends AppModel
     const MIN_USERNAME_LENGTH = 1;
     const MIN_FIRST_NAME_LENGTH = 1;
     const MIN_LAST_NAME_LENGTH = 1;
-    const MIN_EMAIL_LENGTH = 1;
+    const MIN_EMAIL_ADDRESS_LENGTH = 1;
     const MIN_PASSWORD_LENGTH = 8;
-
     //Maximum Length Values
     const MAX_USERNAME_LENGTH = 20;
-    const MAX_FIRST_NAME_LENGTH = 254;
-    const MAX_LAST_NAME_LENGTH = 254;
-    const MAX_EMAIL_LENGTH = 254;
-    const MAX_PASSWORD_LENGTH = 20;
+    const MAX_FIRST_NAME_LENGTH = 50;
+    const MAX_LAST_NAME_LENGTH = 50;
+    const MAX_EMAIL_ADDRESS_LENGTH = 255;
+    const MAX_PASSWORD_LENGTH = 50;
 
     public $is_validated = true;
 
@@ -24,7 +23,7 @@ class User extends AppModel
             ),
 
             'exist' => array(
-                'is_username_exist',                         
+                'isUserNameExist',                         
             )
         ),
                 
@@ -40,13 +39,13 @@ class User extends AppModel
             )
         ),
 
-        'email' => array(
+        'email_address' => array(
             'length' => array(
-                'validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH,
+                'validate_between', self::MIN_EMAIL_ADDRESS_LENGTH, self::MAX_EMAIL_ADDRESS_LENGTH,
             ),
 
             'exist' => array(
-                'is_email_exist',                         
+                'isEmailAddressExist',                         
             )
         ),
 
@@ -58,35 +57,44 @@ class User extends AppModel
 
         'confirm_password' => array(
            'match' => array(
-                'is_password_match',                 
+                'isPasswordMatch',                 
             )
         ),
     );
 
     public function register()
     {
-        $this->validate();
-
-        if ($this->hasError()) {
+       if (!$this->validate()) {
             throw new ValidationException('Invalid user credentials');
         }
-
-        $db = DB::conn();
-        
         try {
+            $db = DB::conn();
             $db->begin();
-            $db->insert(
-                'user', array(
-                    'username' => $this->username,
-                    'first_name' => $this->first_name,
-                    'last_name' => $this->last_name,
-                    'email' => strtolower($this->email),
-                    'password' => md5($this->password)
-                    )   
-                );
+            $params = array(
+                'username' => $this->username,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email_address' => strtolower($this->email_address),
+                'password' => md5($this->password)
+            );   
+            $db->insert('user', $params); 
+            $this->id = $db->lastInsertId();
+            $this->addAvatar($this->id);
             $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
+    }
 
-        }catch(Exception $e) {
+    public function addAvatar($user_id)
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->insert('avatar', array('user_id' => $user_id, 'image_path' => 1 ));
+            $db->commit();
+        } catch (Exception $e) {
             $db->rollback();
             throw $e;
         }
@@ -99,36 +107,142 @@ class User extends AppModel
             'username' => $this->username,
             'password' => md5($this->password) 
         );
-        
-        $user = $db->row("SELECT id, username FROM user WHERE BINARY username = :username &&  BINARY password = :password", $params);
+
+        $user = $db->row("SELECT id, first_name FROM user 
+                        WHERE BINARY username = :username AND  BINARY password = :password", $params);
         
         if (!$user) {
             $this->is_validated = false; 
             throw new RecordNotFoundException('No Record Found');   
         }
-
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] =$user['username'];
+        $_SESSION['first_name'] = $user['first_name'];       
     }
 
-    public function is_password_match()
+    public function isPasswordMatch()
     {
         return $this->password == $this->confirm_password;
     }
 
-    public function is_username_exist()
+    public function isUsernameExist()
     {
         $db = DB::conn();
-        $username_exist = $db->row("SELECT username FROM user WHERE username = ?", array($this->username));
-
+        $username_exist = $db->row("SELECT username FROM user 
+                                WHERE username = ?", array($this->username));
         return !$username_exist;
     }
 
-       public function is_email_exist()
+    public function isEmailAddressExist()
     {
         $db = DB::conn();
-        $username_exist = $db->row("SELECT email FROM user WHERE email = ?", array($this->email));
+        $user_id ='';
 
-        return !$username_exist;
+        if (isset($_SESSION['user_id'])) {
+            $user_id = $_SESSION['user_id'];
+        }
+
+        $params = array(
+            'email_address' => $this->email_address,
+            'id' => $user_id
+        );
+        $email_address_exist = $db->row("SELECT email_address FROM user 
+                                WHERE email_address = :email_address
+                                AND email_address = :email_address
+                                AND id != :id", $params);
+        return !$email_address_exist;
+    }
+
+    public static function getUsername($user_id)
+    {
+        $db = DB::conn();
+        $user = $db->row("SELECT username FROM user 
+                    WHERE id = ?", array($user_id));    
+        return $user['username'];
+    }
+
+    public static function get()
+    {
+        $db = DB::conn();
+        $row = $db->row("SELECT * FROM user 
+                    WHERE id = ?", array($_SESSION['user_id']));    
+        
+        if (!$row) {
+            throw new RecordNotFoundException('no record found');
+        }
+        return new self($row);
+    }
+
+    public function updateProfile()
+    {
+        if (!$this->validate()) {
+            throw new ValidationException('Invalid user credentials');
+        }
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $params = array(
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email_address' => strtolower($this->email_address)
+            );
+            $db->update('user', $params, array('id' => $_SESSION['user_id']));
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
+    }
+
+    public static function getImagePath($user_id)
+    {
+        $db = DB::conn();
+        $row = $db->row('SELECT image_path FROM avatar WHERE user_id = ?', array($user_id));
+
+        switch ($row['image_path']) {
+            case 1:
+                $image_path = "/bootstrap/img/avatar-milk.gif";
+                break;
+            case 2:
+                $image_path = "/bootstrap/img/avatar-french-fries.gif";
+                break;
+            case 3:
+                $image_path = "/bootstrap/img/avatar-ghost.gif";
+                break;
+            case 4:
+                $image_path = "/bootstrap/img/avatar-strawberry.gif";
+                break;
+            case 5:
+                $image_path = "/bootstrap/img/avatar-sushi.gif";
+                break;
+            case 6:
+                $image_path = "/bootstrap/img/avatar-finn.gif";
+                break;
+            case 7:
+                $image_path = "/bootstrap/img/avatar-flame-princess.gif";
+                break;
+            case 8:
+                $image_path = "/bootstrap/img/avatar-lee.gif";
+                break;
+            case 9:
+                $image_path = "/bootstrap/img/avatar-pb.gif";
+                break;                
+            default:
+                throw new NotFoundException("{$image_path} is not found");
+                break; 
+            }
+        return $image_path;
+    }
+
+    public function setAvatar($image_path)
+    {
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $db->update('avatar', array('image_path' => $image_path), array('user_id' => $this->id));
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollback();
+            throw $e;
+        }
     }
 }
