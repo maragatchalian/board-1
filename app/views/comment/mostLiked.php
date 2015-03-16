@@ -2,13 +2,14 @@
 
 <ol>
   <?php foreach ($comments as $comment) : ?>
-    <li></li>
-    <span class="section">
-        <a href="<?php to_html_entities(url('thread/view',
-                array('thread_id' => $comment->getThreadId()))) ?>">
-        <?php echo $comment->getCommentSnippet() ?>
-        </a>
-        <em><?php echo $comment->total_likes ?> Likes</em>
-    </span>
+    <li>
+        <span class="section">
+            <a href="<?php to_html_entities(url('thread/view',array('thread_id' => $comment->getThreadId()))) ?>">
+                <?php echo $comment->getCommentSnippet() ?>
+            </a>
+            <em><?php echo $comment->total_likes ?> Likes</em>
+        </span>
+    </li>
+    <br>
   <?php endforeach; ?>
 </ol>
